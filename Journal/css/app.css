@@ -1,0 +1,120 @@
+
+/* ***************************************************************************
+GENERAL
+*************************************************************************** */
+.wrap {
+    width: 90%;
+    max-width: 1260px;
+    margin: 0 auto;
+}
+
+
+
+
+/* ***************************************************************************
+NAV
+*************************************************************************** */
+.top-bar {
+    color: #CECECE;
+    background-color: #333;
+}
+
+
+.top-bar h4 {
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+
+.menu li a {
+    color: #CECECE;
+    background-color: #333;
+}
+
+
+.menu li a:hover {
+    background-color: rgba(255,255,255, 0.1);
+}
+
+
+/* ***************************************************************************
+HERO
+*************************************************************************** */
+.hero {
+    color: #CECECE;
+    background-color: #333;
+    padding: 10px 80px;
+}
+
+.columns h2 {
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+
+
+/* ***************************************************************************
+MAIN SECTION
+*************************************************************************** */
+.main {
+    height: 1920px;
+}
+
+
+#background {
+    background-image: url(main_back.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    position: relative;
+    height: 100%;
+}
+
+.body {
+    background-color: black;
+    background-blend-mode: overlay;
+
+}
+
+.column {
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+.column h5 {
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+#pagination {
+    color: white;
+    display: inline;
+}
+
+.active {
+    color: #87FFFF;
+}
+
+/* ***************************************************************************
+FOOTER
+*************************************************************************** */
+
+footer {
+    color: #CECECE;
+    height: 190px;
+    background-color: #333;
+    padding: 10px;
+    position: relative;
+}
+
+footer a {
+    display: block;
+}
+
+
+/* ***************************************************************************
+MEDIA QUERY
+*************************************************************************** */
+
+@media (min-width: 639px) {
+
+    .nav-desktop {
+        display: none;
+    }
+}
