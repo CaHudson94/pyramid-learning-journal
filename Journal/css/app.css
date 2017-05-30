@@ -69,9 +69,10 @@ MAIN SECTION
 }
 
 .body {
-    background-color: black;
+    background-color: #333;
+    opacity: 0.85;
     background-blend-mode: overlay;
-
+    padding: 25px 25px;
 }
 
 .column {
@@ -82,13 +83,23 @@ MAIN SECTION
     font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
 }
 
-#pagination {
+.pagination {
     color: white;
     display: inline;
+    padding: 10px 25px;
 }
 
 .active {
     color: #87FFFF;
+}
+
+.entries {
+    color: white;
+    padding: 0px 25px;
+}
+
+.entries a {
+    color: white;
 }
 
 /* ***************************************************************************
