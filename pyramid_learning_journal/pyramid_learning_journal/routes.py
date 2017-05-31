@@ -1,5 +1,6 @@
 """Assign web url routes to the names of different pages."""
 
+
 def includeme(config):
     """Assign web url routes to the names of different pages."""
     config.add_static_view('static', 'static', cache_max_age=3600)
