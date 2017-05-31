@@ -1,5 +1,6 @@
 """Views for learning journal."""
 from pyramid.response import Response
+from pyramid.view import view_config
 import os
 import io
 
