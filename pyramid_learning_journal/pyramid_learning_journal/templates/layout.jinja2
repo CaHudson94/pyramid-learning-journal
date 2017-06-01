@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>A Journy into Code - <!DOCTYPE html>
-<html>
-    <head>
       <meta charset="utf-8">
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>A Journy into Code - New Entry</title>
+      <title>A Journy into Code - Entries</title>
       <link href="http://www.cssfontstack.com/Palatino" rel="stylesheet">
       <link rel="stylesheet" href="../static/foundation.css">
       <link rel="stylesheet" href="../static/app.css">
@@ -45,6 +42,7 @@
       </div>
     </div>
 
+
     <!-- HERO SECTION -->
     <section class="hero">
       <div class="wrap">
@@ -55,25 +53,7 @@
       </div>
     </section>
 
-
-
-    <!-- MAIN CONTENT -->
-    <section class="main">
-      <div id="background">
-        <div class="wrap">
-          <div class="body">
-            <div class="large-6 columns grade1"></div>
-              <div class="large-6 columns"><h2>New Entry</h2></div>
-              <div class="titlearea"><textarea>Title...</textarea></div>
-              <hr>
-              <div class="bodyarea"><textarea>Body...</textarea></div>
-              <div class="button Confirm"><a href="#">Confirm</a></div>
-              <div class="button Cancle"><a href="#">Cancle</a></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
+    {% block body %}{% endblock %}}
 
     <!-- FOOTER SECTION -->
     <Footer>
