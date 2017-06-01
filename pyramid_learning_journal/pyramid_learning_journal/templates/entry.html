@@ -6,36 +6,36 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>A Journy into Code - Entries</title>
       <link href="http://www.cssfontstack.com/Palatino" rel="stylesheet">
-      <link rel="stylesheet" href="css/foundation.css">
-      <link rel="stylesheet" href="css/app.css">
+      <link rel="stylesheet" href="../static/foundation.css">
+      <link rel="stylesheet" href="../static/app.css">
     </head>
 
   <body>
     <!-- NAVIGATION -->
-    <div class="top-bar">
-      <div class="top-bar-left">
-        <div class="menu-text"><h4><a href='main.html'>Home</a></h4></div>
+    <div class="nav-bar">
+      <div class="left">
+        <div class="menu-text"><h4><a href='/main.html'>Home</a></h4></div>
       </div>
-      <div class="top-bar-right">
-        <ul class="dorpdown menu">
+      <div class="right">
+        <ul class="dropdown menu">
           <li>
             <a href="https://www.facebook.com/chris.hudson.75054">
-              <img src="facebook.ico" width="40" height="40"></img>
+              <img src="../static/facebook.ico" width="40" height="40"></img>
             </a>
           </li>
           <li>
             <a href="https://www.linkedin.com/in/chris-hudson-28844a13b/">
-              <img src="linkedin.ico" width="40" height="40"></img>
+              <img src="../static/linkedin.ico" width="40" height="40"></img>
             </a>
           </li>
           <li>
             <a href="https://github.com/CaHudson94">
-              <img src="github.ico" width="40" height="40"></img>
+              <img src="../static/github.ico" width="40" height="40"></img>
             </a>
           </li>
           <li>
             <a href="https://twitter.com/CaHud94">
-              <img src="twitter.ico" width="40" height="40"></img>
+              <img src="../static/twitter.ico" width="40" height="40"></img>
             </a>
           </li>
         </ul>
@@ -62,6 +62,7 @@
           <div class="body">
             <div class="entries">
               <h3>Example entry</h3>
+              <div class="button edit"><a href="edit_entry.html">Edit</a></div>
               <hr>
               <h5>The date and such goes here</h5>
               <p>Perhaps the greatest faculty our minds possess is the ability to cope with pain. Classic thinking teaches us of the four doors of the mind, which everyone moves through according to their need.
@@ -77,20 +78,24 @@
 
     <!-- FOOTER SECTION -->
     <Footer>
-      <div class="wrap row small-up-1 medium-up-2">
+      <div class="wrap medium-up-2">
         <div class="column">
           <h5> Legal</h5>
           <hr>
           <p>
           </p>
         </div>
-        <div class="column">
+        <div class="column small-up-2">
           <h5> My Pages</h5>
           <hr>
-          <a href="https://www.facebook.com/chris.hudson.75054">Facebook</a>
-          <a href="https://www.linkedin.com/in/chris-hudson-28844a13b/">LinkedIn</a>
-          <a href="https://github.com/CaHudson94">GitHub</a>
-          <a href="https://twitter.com/CaHud94">Twitter</a>
+          <div class="column">
+            <a href="https://www.facebook.com/chris.hudson.75054">Facebook</a>
+            <a href="https://www.linkedin.com/in/chris-hudson-28844a13b/">LinkedIn</a>
+          </div>
+          <div class="column">
+            <a href="https://github.com/CaHudson94">GitHub</a>
+            <a href="https://twitter.com/CaHud94">Twitter</a>
+          </div>
       </div>
     </Footer>
 
