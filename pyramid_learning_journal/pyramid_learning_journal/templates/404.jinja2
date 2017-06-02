@@ -1,8 +1,16 @@
 {% extends "layout.jinja2" %}
 
-{% block content %}
+{% block body %}
 <div class="content">
-  <h1><span class="font-semi-bold">Pyramid</span> <span class="smaller">Alchemy scaffold</span></h1>
-  <p class="lead"><span class="font-semi-bold">404</span> Page Not Found</p>
+    <section class="main">
+      <div id="background">
+        <div class="wrap">
+          <div class="body"><h1>These are not the pages you're looking for!</h1><h3>404 page not found</h3></div>
+          <video width="50%" height="400" autoplay>
+            <source src="{{ request.static_path('pyramid_learning_journal:static/rickroll.mp4') }}" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </section>
 </div>
-{% endblock content %}
+{% endblock %}

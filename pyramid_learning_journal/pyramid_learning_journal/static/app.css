@@ -14,16 +14,32 @@ GENERAL
 /* ***************************************************************************
 NAV
 *************************************************************************** */
-.top-bar {
+.nav-bar {
     color: #CECECE;
     background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99;
 }
 
+.left {
+    padding: 10px 20px;
+}
 
-.top-bar h4 {
+.right {
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.nav-bar h4 {
     font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
 }
 
+.menu {
+    position: relative;
+}
 
 .menu li a {
     color: #CECECE;
@@ -49,6 +65,10 @@ HERO
     padding: 10px 80px;
 }
 
+.wrap {
+    padding-top: 65px;
+}
+
 .columns h2 {
     font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
 }
@@ -59,7 +79,7 @@ HERO
 MAIN SECTION
 *************************************************************************** */
 .main {
-    height: 1920px;
+    margin-top: 0;
 }
 
 
@@ -69,6 +89,7 @@ MAIN SECTION
     background-attachment: fixed;
     background-repeat: no-repeat;
     position: relative;
+    min-height: 1920px;
     height: 100%;
 }
 
@@ -76,19 +97,37 @@ MAIN SECTION
     background-color: #333;
     opacity: 0.85;
     background-blend-mode: overlay;
-    padding: 25px 25px;
+    padding: 25px 25px 60px 25px;
+}
+
+.body h1 {
+    text-align: center;
+    color: white;
+}
+
+.body h3 {
+    text-align: center;
+    color: white;
 }
 
 .button {
-    float: right;
+    float:right;
+    height: 40px;
+    width: 140px;
+    padding: 8px;
 }
 
-.column {
-    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+.button a {
+    color: white;
+    font-size: 22px;
 }
 
-.column h5 {
-    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+.Confirm {
+    float: left;
+}
+
+.edit {
+    width: 100px;
 }
 
 .pagination {
@@ -115,28 +154,117 @@ MAIN SECTION
 .entries {
     color: white;
     padding: 0px 25px;
+    max-height: 1530px;
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
 }
 
 .entries a {
+    max-width: 600px;
     color: white;
 }
+
+.entries h3 {
+    max-width: 600px;
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+.titlearea textarea {
+    width: 100%;
+    height: 35px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+    color: black;
+
+}
+
+
+.infoarea {
+    color: black;
+}
+
+
+.infoarea textarea {
+    width: 100%;
+    height: 35px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+
+.bodyarea textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+.columns h2 {
+    color: white;
+}
+
+video {
+    display: block;
+    margin: 0 auto;
+}
+
 
 /* ***************************************************************************
 FOOTER
 *************************************************************************** */
 
 footer {
+    position: fixed;
+    bottom: 0;
     color: #CECECE;
-    height: 190px;
+    height: 140px;
+    width: 100%;
     background-color: #333;
-    padding: 10px;
-    position: relative;
+    padding-bottom: 50px;
 }
 
 footer a {
     display: block;
+    margin-bottom: 3px;
 }
 
+footer h5 {
+    margin-top: -40px;
+}
+
+footer hr {
+    margin-bottom: 10px;
+}
+
+footer .column {
+    margin-top: -10px;
+}
+
+.column {
+    text-align: center;
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+
+.column a {
+    text-align: center;
+    padding-top: 7px;
+}
+
+.column h5 {
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
 
 /* ***************************************************************************
 MEDIA QUERY
