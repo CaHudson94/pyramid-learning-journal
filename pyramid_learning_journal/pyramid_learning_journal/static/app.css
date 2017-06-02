@@ -100,6 +100,16 @@ MAIN SECTION
     padding: 25px 25px 60px 25px;
 }
 
+.body h1 {
+    text-align: center;
+    color: white;
+}
+
+.body h3 {
+    text-align: center;
+    color: white;
+}
+
 .button {
     float:right;
     height: 40px;
@@ -145,6 +155,7 @@ MAIN SECTION
     color: white;
     padding: 0px 25px;
     max-height: 1530px;
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
 }
 
 .entries a {
@@ -154,6 +165,7 @@ MAIN SECTION
 
 .entries h3 {
     max-width: 600px;
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
 }
 
 .titlearea textarea {
@@ -165,6 +177,13 @@ MAIN SECTION
     border-radius: 4px;
     background-color: #f8f8f8;
     resize: none;
+    color: black;
+
+}
+
+
+.infoarea {
+    color: black;
 }
 
 
@@ -195,6 +214,11 @@ MAIN SECTION
     color: white;
 }
 
+video {
+    display: block;
+    margin: 0 auto;
+}
+
 
 /* ***************************************************************************
 FOOTER
@@ -218,6 +242,7 @@ footer a {
 footer h5 {
     margin-top: -40px;
 }
+
 
 footer hr {
     margin-bottom: 10px;

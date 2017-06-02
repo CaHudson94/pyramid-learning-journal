@@ -16,7 +16,6 @@ pyramid_learning_journal/views/notfound.py       4      0   100%
 TOTAL                                           32      0   100%
 
 
-
 ## Author: Chris Hudson and Erik Enderlein
 
 ## Site:

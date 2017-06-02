@@ -4,37 +4,41 @@ from pyramid_learning_journal.data.data import posts
 from pyramid.httpexceptions import HTTPNotFound
 
 
-@view_config(route_name='home', renderer='../templates/list.jinja2')
+@view_config(route_name='home', renderer='../templates/main.jinja2')
 def list_view(request):
-    """Import page for main.html."""
-    return {'page': 'home', 'posts': posts}
+    """View for the home page with list of entries."""
+    return {'page': 'home', "posts": posts}
 
 
 @view_config(route_name='detail', renderer='../templates/entry.jinja2')
 def detail_view(request):
-    """Import page for entry.html."""
+    """View to see an individual entry."""
     the_id = int(request.matchdict['id'])
-    try:
-        post = posts[the_id]
-    except IndexError:
+    entry = None
+    for item in posts:
+        if item['id'] == the_id:
+            entry = item
+            break
+    if entry is None:
         raise HTTPNotFound
-    return {'page': 'detail', 'title': post['title'],
-            'date': post['creation_date'], 'body': post['body']}
+    return {'page': 'detail', 'entry': entry}
 
 
 @view_config(route_name='create', renderer='../templates/new_entry.jinja2')
 def create_view(request):
-    """Import page for new_entry.html."""
+    """View for adding a new entry."""
     return {'page': 'create'}
 
 
 @view_config(route_name='edit', renderer='../templates/edit_entry.jinja2')
 def edit_view(request):
-    """Import page for edit_entry.html."""
+    """View for editing an entry."""
     the_id = int(request.matchdict['id'])
-    try:
-        post = posts[the_id]
-    except IndexError:
+    entry = None
+    for item in posts:
+        if item['id'] == the_id:
+            entry = item
+            break
+    if entry is None:
         raise HTTPNotFound
-    return {'page': 'edit', 'title': post['title'],
-            'date': post['creation_date'], 'body': post['body']}
+    return {'page': 'edit', 'entry': entry}
