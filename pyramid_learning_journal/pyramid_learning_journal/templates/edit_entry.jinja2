@@ -1,0 +1,21 @@
+{% extends "layout.jinja2" %}
+{% block body %}
+    <!-- MAIN CONTENT -->
+    <section class="main">
+      <div id="background">
+        <div class="wrap">
+          <div class="body">
+            <div class="large-6 columns grade1"></div>
+              <div class="large-6 columns"><h2>Edit Entry</h2></div>
+              <div class="titlearea"><textarea placeholder="Title...">{{entry.title}}</textarea></div>
+              <hr>
+              <div class="infoarea">Created: {{entry.creation_date}} Edited: {{edit_date}}</div><!-- add edit date to dict -->
+              <hr>
+              <div class="bodyarea"><textarea placeholder="Body...">{{entry.body}}</textarea></div>
+              <div class="button Confirm"><a href="#">Confirm</a></div>
+              <div class="button Cancle"><a href="#">Cancle</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
