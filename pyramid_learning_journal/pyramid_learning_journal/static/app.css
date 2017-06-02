@@ -164,6 +164,7 @@ MAIN SECTION
 }
 
 .entries h3 {
+    text-align: left;
     max-width: 600px;
     font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
 }
