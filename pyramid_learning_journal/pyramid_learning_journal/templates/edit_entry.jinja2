@@ -7,9 +7,11 @@
           <div class="body">
             <div class="large-6 columns grade1"></div>
               <div class="large-6 columns"><h2>Edit Entry</h2></div>
-              <div class="titlearea"><textarea>Title...</textarea></div>
+              <div class="titlearea"><textarea>{{entry.title}}</textarea></div>
               <hr>
-              <div class="bodyarea"><textarea>Body...</textarea></div>
+              <div class="infoarea">Edited{{entry.creation_date}}</div>
+              <hr>
+              <div class="bodyarea"><textarea>{{entry.body}}</textarea></div>
               <div class="button Confirm"><a href="#">Confirm</a></div>
               <div class="button Cancle"><a href="#">Cancle</a></div>
           </div>

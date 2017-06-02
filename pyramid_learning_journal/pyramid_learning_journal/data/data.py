@@ -105,4 +105,5 @@ Learning new bits about data structures and as we learn new ones the old \
 ones seem easier and simpler solutions reveal themselves to them as we go \
 even if the new ones seem overtly more and more complicated. The server side \
 of things still seems and feels like the harder portion of things although \
-it still mostly makes sense, I just suck at anything front end.'''}
+it still mostly makes sense, I just suck at anything front end.'''},
+]

@@ -5,37 +5,37 @@
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>A Journy into Code - Entries</title>
-      <link href="http://www.cssfontstack.com/Palatino" rel="stylesheet">
-      <link rel="stylesheet" href="../static/foundation.css">
-      <link rel="stylesheet" href="../static/app.css">
+      <link rel="stylesheet" type="text/css" href="http://www.cssfontstack.com/Palatino">
+      <link rel="stylesheet" href="{{ request.static_path('pyramid_learning_journal:static/foundation.css') }}">
+      <link rel="stylesheet" href="{{ request.static_path('pyramid_learning_journal:static/app.css') }}">
     </head>
 
   <body>
     <!-- NAVIGATION -->
     <div class="nav-bar">
       <div class="left">
-        <div class="menu-text"><h4><a href='/'>Home</a></h4></div>
+        <div class="menu-text"><h4><a href="{{request.route_url('home')}}">Home</a></h4></div>
       </div>
       <div class="right">
         <ul class="dropdown menu">
           <li>
             <a href="https://www.facebook.com/chris.hudson.75054">
-              <img src="../static/facebook.ico" width="40" height="40"></img>
+              <img src="{{ request.static_path('pyramid_learning_journal:static/facebook.ico') }}" width="40" height="40"></img>
             </a>
           </li>
           <li>
             <a href="https://www.linkedin.com/in/chris-hudson-28844a13b/">
-              <img src="../static/linkedin.ico" width="40" height="40"></img>
+              <img src="{{ request.static_path('pyramid_learning_journal:static/linkedin.ico') }}" width="40" height="40"></img>
             </a>
           </li>
           <li>
             <a href="https://github.com/CaHudson94">
-              <img src="../static/github.ico" width="40" height="40"></img>
+              <img src="{{ request.static_path('pyramid_learning_journal:static/github.ico') }}" width="40" height="40"></img>
             </a>
           </li>
           <li>
             <a href="https://twitter.com/CaHud94">
-              <img src="../static/twitter.ico" width="40" height="40"></img>
+              <img src="{{ request.static_path('pyramid_learning_journal:static/twitter.ico') }}" width="40" height="40"></img>
             </a>
           </li>
         </ul>

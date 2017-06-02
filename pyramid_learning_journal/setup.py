@@ -1,4 +1,4 @@
-"""Contains all requirements for program to run, for easy installation."""
+"""Setup for Pyramid Learning Journal."""
 import os
 
 from setuptools import setup, find_packages

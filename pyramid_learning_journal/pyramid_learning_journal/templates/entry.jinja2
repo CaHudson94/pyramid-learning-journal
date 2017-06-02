@@ -6,13 +6,11 @@
         <div class="wrap">
           <div class="body">
             <div class="entries">
-              <h3>Example entry</h3>
-              <div class="button edit"><a href="/journal/1/edit-entry">Edit</a></div>
+              <h3>{{entry.title}}</h3>
+              <div class="button edit"><a href="{{request.route_url('edit', id=entry.id)}}">Edit</a></div>
               <hr>
-              <h5>The date and such goes here</h5>
-              <p>Perhaps the greatest faculty our minds possess is the ability to cope with pain. Classic thinking teaches us of the four doors of the mind, which everyone moves through according to their need.
-
-              First is the door of sleep. Sleep offers us a retreat from the world and all its pain. Sleep marks passing time, giving us distance from the things that have hurt us. When a person is wounded they will often fall unconscious. Similarly, someone who hears traumatic news will often swoon or faint. This is the mind's way of protecting itself from pain by stepping through the first door.
+              <h5>{{entry.creation_date}}</h5>
+              <p>{{entry.body}}
               </p>
               <hr>
           </div>
