@@ -17,7 +17,6 @@ from ..models import (
 )
 from pyramid_learning_journal.models.mymodel import Entry
 from pyramid_learning_journal.data.data import posts
-from datetime import datetime
 
 
 def usage(argv):
@@ -49,7 +48,8 @@ def main(argv=sys.argv):
             new_entry = Entry(
                 title=item['title'],
                 body=item['body'],
-                creation_date=datetime.strptime(item['creation_date'], ),
+                creation_date=item['creation_date'],
+                edit_date=item['edit_date'],
             )
             many_entries.append(new_entry)
         dbsession.add_all(many_entries)
