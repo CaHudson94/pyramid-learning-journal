@@ -2,6 +2,9 @@
 from pyramid.view import view_config
 from pyramid_learning_journal.models import Entry
 from pyramid.httpexceptions import HTTPNotFound
+import datetime
+
+the_date = datetime.datetime.now()
 
 
 @view_config(route_name='home', renderer='../templates/main.jinja2')
@@ -35,6 +38,7 @@ def edit_view(request):
     the_id = int(request.matchdict['id'])
     session = request.dbsession
     entry = session.query(Entry).all(the_id)
+    new_date = the_date.strftime('%A, %-d %B, %Y, %-I:%M %P')
     if not Entry:
         raise HTTPNotFound
-    return {'page': 'edit', 'entry': entry}
+    return {'page': 'edit', 'entry': entry, 'edit_date': new_date}
