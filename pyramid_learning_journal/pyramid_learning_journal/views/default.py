@@ -27,7 +27,7 @@ def detail_view(request):
 @view_config(route_name='create', renderer='../templates/new_entry.jinja2')
 def create_view(request):
     """View for adding a new entry."""
-    return {'page': 'create'}
+    return {}
 
 
 @view_config(route_name='edit', renderer='../templates/edit_entry.jinja2')
@@ -41,4 +41,4 @@ def edit_view(request):
             break
     if entry is None:
         raise HTTPNotFound
-    return {'page': 'edit', 'entry': entry}
+    return {}

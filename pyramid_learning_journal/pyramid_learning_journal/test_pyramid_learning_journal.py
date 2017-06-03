@@ -56,28 +56,11 @@ def test_home_view_returns_proper_content(testapp):
     assert expected_text in str(html)
 
 
-def test_new_entry_view_page_is_create(new_entry_response):
-    """Test create view is routed to new entry page."""
-    from pyramid_learning_journal.views.default import create_view
-    request = testing.DummyRequest()
-    response = create_view(request)
-    assert response['page'] is 'create'
-
-
 def test_new_entry_view_returns_proper_content(testapp):
     """New entry view returns the actual content from the html."""
     response = testapp.get('/journal/new-entry')
     html = response.html
     expected_text = '<div class="large-6 columns"><h2>New Entry</h2></div>'
-    assert expected_text in str(html)
-
-
-def test_edit_entry_view_returns_proper_content(testapp):
-    """Edit entry view returns the actual content from the html."""
-    response = testapp.get('/journal/1/edit-entry')
-    html = response.html
-    assert html.find()
-    expected_text = '<div class="large-6 columns grade1"></div>'
     assert expected_text in str(html)
 
 
