@@ -89,7 +89,6 @@ MAIN SECTION
     background-attachment: fixed;
     background-repeat: no-repeat;
     position: relative;
-    min-height: 1920px;
     height: 100%;
 }
 
@@ -97,7 +96,7 @@ MAIN SECTION
     background-color: #333;
     opacity: 0.85;
     background-blend-mode: overlay;
-    padding: 25px 25px 60px 25px;
+    padding: 25px 25px 15px 25px;
 }
 
 .body h1 {
@@ -154,7 +153,7 @@ MAIN SECTION
 .entries {
     color: white;
     padding: 0px 25px;
-    max-height: 1530px;
+    min-height: 1530px;
     font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
 }
 
@@ -226,8 +225,6 @@ FOOTER
 *************************************************************************** */
 
 footer {
-    position: fixed;
-    bottom: 0;
     color: #CECECE;
     height: 140px;
     width: 100%;
