@@ -2,18 +2,19 @@
 
 ## Coverage:
 
-pyramid_learning_journal/test_pyramid_learning_journal.py ..........
-
 ----------- coverage: platform linux, python 3.6.1-final-0 -----------
 Name                                         Stmts   Miss  Cover   Missing
 --------------------------------------------------------------------------
 pyramid_learning_journal/data/__init__.py        0      0   100%
 pyramid_learning_journal/data/data.py            1      0   100%
 pyramid_learning_journal/views/__init__.py       0      0   100%
-pyramid_learning_journal/views/default.py       27      0   100%
+pyramid_learning_journal/views/default.py       27      3    89%   40-41, 44
 pyramid_learning_journal/views/notfound.py       4      0   100%
 --------------------------------------------------------------------------
-TOTAL                                           32      0   100%
+TOTAL                                           32      3    91%
+
+
+=========================== 8 passed in 1.59 seconds ===========================
 
 
 ## Author: Chris Hudson and Erik Enderlein
