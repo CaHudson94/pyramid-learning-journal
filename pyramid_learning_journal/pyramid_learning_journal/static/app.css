@@ -157,20 +157,21 @@ input:hover, input:focus {
     display: inline;
 }
 
+.pagination a.active {
+    color: #1779ba;
+}
+
 .pagination li {
     padding: 0 3px;
 }
 
 .pagination li a {
+    font-size: 18px;
     color: white;
 }
 
 .pagination li a:hover {
     color: black;
-}
-
-.active {
-    color: #87FFFF;
 }
 
 .entries {
