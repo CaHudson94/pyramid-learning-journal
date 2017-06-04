@@ -11,7 +11,7 @@ the_date = datetime.datetime.now()
 def list_view(request):
     """View for the home page with list of entries."""
     session = request.dbsession
-    all_entries = session.query(Entry).order_by(Entry.id.desc()).all()
+    all_entries = session.query(Entry).all()
     return {'page': 'home', "posts": all_entries}
 
 
