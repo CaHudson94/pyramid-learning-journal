@@ -126,4 +126,12 @@ content of a 5 day week but with one less day before everything for that \
 week is done. I like having that time to process and this just feels like \
 more pressure to perform. I felt pretty lost today as far as direction \
 although the material made sense it was just a weird day.'''},
+    {'id': 13, 'title': 'Day 14 - Chris Hudson', 'edit_date': '',
+     'creation_date': 'Saturday, 3 June, 2017, 2:41 am',
+     'body':
+     '''Today was difficult in that there were so many things that needed \
+     to be done and needed attention that we couldn't possibly cover \
+     everything. Luckily I felt a lot more productive today (at least for \
+     the earlier half) than yesterday. We will see what the week end \
+     brings but I hope to get a little down time this time around.'''},
 ]
