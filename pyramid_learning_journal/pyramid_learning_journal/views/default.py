@@ -11,7 +11,7 @@ the_date = datetime.datetime.now()
 def list_view(request):
     """View for the home page with list of entries."""
     session = request.dbsession
-    all_entries = session.query(Entry).all()
+    all_entries = session.query(Entry).order_by(Entry.id.desc()).all()
     return {'page': 'home', "posts": all_entries}
 
 
@@ -20,7 +20,7 @@ def detail_view(request):
     """View to see an individual entry."""
     the_id = int(request.matchdict['id'])
     session = request.dbsession
-    entry = session.query(Entry).all(the_id)
+    entry = session.query(Entry).get(the_id)
     if not Entry:
         raise HTTPNotFound
     return {'page': 'detail', 'entry': entry}
