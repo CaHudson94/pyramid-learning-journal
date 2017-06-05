@@ -2,6 +2,24 @@
 
 ## Coverage:
 
+Step1:
+
+pyramid_learning_journal/test_pyramid_learning_journal.py ............
+
+----------- coverage: platform linux, python 3.6.1-final-0 -----------
+Name                                        Stmts   Miss  Cover
+---------------------------------------------------------------
+pyramid_learning_journal/views/default.py      21      0   100%
+
+
+========================== 12 passed in 2.73 seconds ===========================
+___________________________________ summary ____________________________________
+  py27: commands succeeded
+  py36: commands succeeded
+  congratulations :)
+
+Step2:
+
 ----------- coverage: platform linux, python 3.6.1-final-0 -----------
 Name                                         Stmts   Miss  Cover   Missing
 --------------------------------------------------------------------------
