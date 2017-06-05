@@ -1,15 +1,7 @@
 """Test for views creation and link to html pages."""
 from pyramid import testing
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPNotFound
-from pyramid_learning_journal.data.data import posts
 import pytest
-
-
-@pytest.fixture
-def testapp():
-    """."""
-    from pyramid_learning_journal import main
 
 
 @pytest.fixture
@@ -56,6 +48,14 @@ def test_home_view_returns_response_given_request(home_response):
     assert isinstance(response, Response)
 
 
+def test_home_view_is_good(home_response):
+    """Home view hass a 200 ok."""
+    from pyramid_learning_journal.views.default import list_view
+    request = testing.DummyRequest()
+    response = list_view(request)
+    assert response.status_code == 200
+
+
 def test_home_view_returns_proper_content(home_response):
     """Home view returns the actual content from the html."""
     from pyramid_learning_journal.views.default import list_view
@@ -71,6 +71,14 @@ def test_new_entry_view_returns_response_given_request(new_entry_response):
     request = testing.DummyRequest()
     response = create_view(request)
     assert isinstance(response, Response)
+
+
+def test_new_entry_view_is_good(new_entry_response):
+    """New entry view hass a 200 ok."""
+    from pyramid_learning_journal.views.default import create_view
+    request = testing.DummyRequest()
+    response = create_view(request)
+    assert response.status_code == 200
 
 
 def test_new_entry_view_returns_proper_content(new_entry_response):
@@ -90,6 +98,14 @@ def test_edit_entry_view_returns_response_given_request(edit_entry_response):
     assert isinstance(response, Response)
 
 
+def test_edit_entry_view_is_good(edit_entry_response):
+    """Edit entry view hass a 200 ok."""
+    from pyramid_learning_journal.views.default import edit_view
+    request = testing.DummyRequest()
+    response = edit_view(request)
+    assert response.status_code == 200
+
+
 def test_edit_entry_view_returns_proper_content(edit_entry_response):
     """Edit entry view returns the actual content from the html."""
     from pyramid_learning_journal.views.default import edit_view
@@ -105,6 +121,14 @@ def test_entry_view_returns_response_given_request(entry_response):
     request = testing.DummyRequest()
     response = detail_view(request)
     assert isinstance(response, Response)
+
+
+def test_entry_view_is_good(entry_response):
+    """Entry view hass a 200 ok."""
+    from pyramid_learning_journal.views.default import detail_view
+    request = testing.DummyRequest()
+    response = detail_view(request)
+    assert response.status_code == 200
 
 
 def test_entry_view_returns_proper_content(entry_response):
