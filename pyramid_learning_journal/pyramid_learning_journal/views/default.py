@@ -21,7 +21,7 @@ def detail_view(request):
     the_id = int(request.matchdict['id'])
     session = request.dbsession
     entry = session.query(Entry).get(the_id)
-    if not Entry:
+    if not entry:
         raise HTTPNotFound
     return {'page': 'detail', 'entry': entry}
 
@@ -39,6 +39,6 @@ def edit_view(request):
     session = request.dbsession
     entry = session.query(Entry).all(the_id)
     new_date = the_date.strftime('%A, %-d %B, %Y, %-I:%M %P')
-    if not Entry:
+    if not entry:
         raise HTTPNotFound
     return {'page': 'edit', 'entry': entry, 'edit_date': new_date}
