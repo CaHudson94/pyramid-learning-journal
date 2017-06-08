@@ -18,11 +18,12 @@ requires = [
     'waitress',
     'ipython',
     'pyramid_ipython',
-    'psycopg2'
+    'psycopg2',
+    'passlib'
 ]
 
 tests_require = [
-    'WebTest >= 1.3.1',  # py3 compat
+    'WebTest >= 1.3.1',
     'pytest',
     'pytest-cov',
     'tox',
@@ -38,8 +39,8 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
     ],
-    author='',
-    author_email='',
+    author='Chris Hudson',
+    author_email='c.ahudson84@yahoo.com',
     url='',
     keywords='web pyramid pylons',
     packages=find_packages(),

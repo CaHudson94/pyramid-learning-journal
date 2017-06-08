@@ -4,7 +4,7 @@
       <meta charset="utf-8">
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>A Journy into Code - Entries</title>
+      <title>A Journy into Code</title>
       <link rel="stylesheet" type="text/css" href="http://www.cssfontstack.com/Palatino">
       <link rel="stylesheet" href="{{ request.static_path('pyramid_learning_journal:static/foundation.css') }}">
       <link rel="stylesheet" href="{{ request.static_path('pyramid_learning_journal:static/app.css') }}">
@@ -14,7 +14,11 @@
     <!-- NAVIGATION -->
     <div class="nav-bar">
       <div class="left">
-        <div class="menu-text"><h4><a href="{{request.route_url('home')}}">Home</a></h4></div>
+        <ul class="dropdown menu">
+          <li><div class="menu-text"><h4><a href="{{request.route_url('home')}}">Home</a></h4></div></li>
+          {% if not auth %}<li><div class="log"><h4><a href="{{request.route_url('login')}}">Login</a></h4></div></li>{% endif %}
+          {% if auth %}<li><div class="log"><h4><a href="{{request.route_url('logout')}}">Logout</a></h4></div></li>{% endif %}
+        </ul>
       </div>
       <div class="right">
         <ul class="dropdown menu">
@@ -61,7 +65,7 @@
         <div class="column">
           <h5> Legal</h5>
           <hr>
-          <p>
+          <p>This is where a copy right would go.
           </p>
         </div>
         <div class="column small-up-2">

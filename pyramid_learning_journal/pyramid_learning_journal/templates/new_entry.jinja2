@@ -8,9 +8,9 @@
             <div class="large-6 columns grade1"></div>
               <div class="large-6 columns"><h2>New Entry</h2></div>
               <form method="POST">
-                <div class="titlearea"><textarea placeholder="Title..." name="title" value={{ title }} ></textarea></div>
+                <div class="titlearea"><textarea placeholder="Title..." name="title" value={{ title }} required /></textarea></div>
                 <hr>
-                <div class="bodyarea"><textarea placeholder="Body..." name="body" value={{ body }} required></textarea></div>
+                <div class="bodyarea"><textarea placeholder="Body..." name="body" value={{ body }} required /></textarea></div>
                 <input type="submit" value="Confirm">
               </form>
               <div class="button Cancle"><a href="{{request.route_url('home')}}">Cancle</a></div>
