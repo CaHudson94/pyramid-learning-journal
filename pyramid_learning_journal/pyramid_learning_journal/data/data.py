@@ -134,4 +134,31 @@ although the material made sense it was just a weird day.'''},
      everything. Luckily I felt a lot more productive today (at least for \
      the earlier half) than yesterday. We will see what the week end \
      brings but I hope to get a little down time this time around.'''},
+    {'id': 14, 'title': 'Day 15 - Chris Hudson', 'edit_date': '',
+     'creation_date': 'Tuesday, 6 June, 2017, 6:57 am',
+     'body':
+     '''Today was a catch up day and I got some more clarity on elements \
+     of the pyramid framework we have been working with, which is nice. \
+     Was getting a little sick though so that also timed out well, will \
+     work through the rest of it so I am not dragging my project team or \
+     groups for assignments.'''},
+    {'id': 15, 'title': 'Day 16 - Chris Hudson', 'edit_date': '',
+     'creation_date': 'Wednesday, 7 June, 2017, 11:59 am',
+     'body':
+     '''Today we learned about graph traversal and security. I think \
+     security is pretty cool as I have always enjoyed cryptography to \
+     a certain degree, math and all that, and it is a fairly simple and \
+     understandable way to secure data. I would be interested to learn \
+     more on how exactly the salt is used in the layering of the \
+     cryptogram. The concept of traversal seems fairly easy but being \
+     sick made it friarly hard to actually figure out how to do. I \
+     feel really sorry for my team mates and for missing class.'''},
+    {'id': 16, 'title': 'Day 17 - Chris Hudson', 'edit_date': '',
+     'creation_date': 'Thursday, 8 June, 2017, 8:34 am',
+     'body':
+     '''Today I was out sick but we learned about adding layers to \
+     our security to prevent hacking via CSRF, adding weight to \
+     graphs, and more about how decorators work. I found decorators \
+     interesting as the layering of function calls fairly simple and \
+     straightforward while also accomplishing potentially a lot.'''},
 ]
