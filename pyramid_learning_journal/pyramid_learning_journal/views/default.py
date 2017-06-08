@@ -54,7 +54,7 @@ def create_view(request):
         new_entry = Entry(
             title=request.POST['title'],
             body=request.POST['body'],
-            edit_date='Unedited',
+            edit_date='',
             creation_date=the_date.strftime('%A, %-d %B, %Y, %-I:%M %P')
         )
         request.dbsession.add(new_entry)
