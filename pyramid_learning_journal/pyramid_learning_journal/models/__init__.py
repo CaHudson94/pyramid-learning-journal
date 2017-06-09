@@ -56,6 +56,7 @@ def includeme(config):
     Activate this setup using ``config.include('pyramid_learning_journal.models')``.
 
     """
+
     settings = config.get_settings()
 
     # use pyramid_tm to hook the transaction lifecycle to the request

@@ -1,6 +1,5 @@
 """Test for views creation and link to html pages."""
 from pyramid import testing
-from pyramid_learning_journal.data.data import posts
 import pytest
 import transaction
 from pyramid_learning_journal.models import (
@@ -16,8 +15,8 @@ from pyramid_learning_journal.views.default import (
 )
 
 
-@pytest.fixture
-def testapp():
+@pytest.fixture(scope='session')
+def testapp(request):
     """Create a test application to use for functional tests."""
     from webtest import TestApp
     from pyramid.config import Configurator
@@ -35,24 +34,17 @@ def testapp():
         return config.make_wsgi_app()
 
     app = main({})
+    testapp = TestApp(app)
 
-    return TestApp(app)
-
-
-@pytest.fixture
-def db_session(configuration, request):
-    """."""
-    SessionFactory = configuration.registry['dbsession_factory']
-    session = SessionFactory()
-    engine = session.bind
-    Base.metadata.creat_all(engine)
+    SessionFactory = app.registry['dbsession_factory']
+    engine = SessionFactory().bind
+    Base.metadata.create_all(engine)
 
     def teardown():
-        session.transaction.rollback()
         Base.metadata.drop_all(engine)
 
     request.addfinalizer(teardown)
-    return session
+    return testapp
 
 
 @pytest.fixture
@@ -67,13 +59,6 @@ def dummy_request(db_session):
 def post_request(dummy_request):
     """."""
     dummy_request.method = "POST"
-    return dummy_request
-
-
-@pytest.fixture
-def get_request(dummy_request):
-    """."""
-    dummy_request.method = "GET"
     return dummy_request
 
 
