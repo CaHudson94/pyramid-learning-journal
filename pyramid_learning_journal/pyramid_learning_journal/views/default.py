@@ -4,6 +4,7 @@ from pyramid_learning_journal.models import Entry
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.security import remember, forget
 from pyramid_learning_journal.security import check_credentials
+from pyramid.session import check_csrf_token
 import datetime
 
 the_date = datetime.datetime.now()
@@ -44,6 +45,7 @@ def detail_view(request):
 def create_view(request):
     """View for adding a new entry."""
     if request.method == "POST" and request.POST:
+        check_csrf_token(request)
         if not request.POST['title'] or not request.POST['body']:
             return {
                 'title': request.POST['title'],
@@ -84,6 +86,7 @@ def edit_view(request):
             'auth': request.authenticated_userid
         }
     if request.method == "POST":
+        check_csrf_token(request)
         entry.title = request.POST['title']
         entry.body = request.POST['body']
         entry.edit_date = new_date
