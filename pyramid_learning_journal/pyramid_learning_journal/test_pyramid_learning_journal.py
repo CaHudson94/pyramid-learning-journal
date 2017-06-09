@@ -13,18 +13,19 @@ from pyramid_learning_journal.views.default import (
     detail_view,
     edit_view
 )
+from pyramid.config import Configurator
+import os
 
 
 @pytest.fixture(scope='session')
 def testapp(request):
     """Create a test application to use for functional tests."""
     from webtest import TestApp
-    from pyramid.config import Configurator
-    import os
 
     def main(global_config, **settings):
         """Function returns a Pyramid WSGI application."""
         settings['sqlalchemy.url'] = os.environ.get('TEST_DATABASE')
+        import pdb; pdb.set_trace() # not getting TEST_DATABASE url
         config = Configurator(settings=settings)
         config.include('pyramid_jinja2')
         config.include('.models')
