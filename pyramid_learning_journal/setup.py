@@ -18,6 +18,7 @@ requires = [
     'waitress',
     'ipython',
     'pyramid_ipython',
+    'webtest',
     'psycopg2'
 ]
 
@@ -26,6 +27,7 @@ tests_require = [
     'pytest',
     'pytest-cov',
     'tox',
+    'faker',
 ]
 
 setup(

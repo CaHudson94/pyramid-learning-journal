@@ -5,7 +5,7 @@ import zope.sqlalchemy
 
 # import or define all models here to ensure they are attached to the
 # Base.metadata prior to any initialization routines
-from pyramid_learning_journal.models.mymodel import Entry  # flake8: noqa
+from .mymodel import Entry  # flake8: noqa
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup
@@ -56,7 +56,6 @@ def includeme(config):
     Activate this setup using ``config.include('pyramid_learning_journal.models')``.
 
     """
-
     settings = config.get_settings()
 
     # use pyramid_tm to hook the transaction lifecycle to the request
