@@ -1,11 +1,12 @@
+# -*- coding: utf-8 -*-
 """Test for views creation and link to html pages."""
+from __future__ import unicode_literals
 from pyramid import testing
 from pyramid_learning_journal.models import (
     Entry,
     get_tm_session,
 )
 from pyramid_learning_journal.models.meta import Base
-from pyramid_learning_journal.views.notfound import notfound_view
 from pyramid_learning_journal.views.default import (
     list_view,
     create_view,
@@ -13,7 +14,7 @@ from pyramid_learning_journal.views.default import (
     edit_view
 )
 from pyramid.config import Configurator
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound
+from pyramid.httpexceptions import HTTPNotFound
 from faker import Faker
 import pytest
 import datetime
@@ -36,10 +37,10 @@ def dummy_request(db_session):
     return testing.DummyRequest(dbsession=db_session)
 
 
-# @pytest.fixture
-# def add_models(dummy_request):
-#     """Add entries to a dummy request."""
-#     dummy_request.dbsession.add_all(FAKE_ENTRIES)
+@pytest.fixture
+def add_models(dummy_request):
+    """Add entries to a dummy request."""
+    dummy_request.dbsession.add_all(FAKE_ENTRIES)
 
 
 @pytest.fixture(scope="session")
@@ -68,7 +69,6 @@ def db_session(configuration, request):
 
     def teardown():
         session.transaction.rollback()
-        Base.metadata.drop_all(engine)
 
     request.addfinalizer(teardown)
     return session
@@ -115,25 +115,14 @@ def fill_test_db(testapp):
     return dbsession
 
 
-# @pytest.fixture
-# def reset_db(testapp):
-#     """Clear and start a new DB."""
-#     SessionFactory = testapp.app.registry['dbsession_factory']
-#     engine = SessionFactory().bind
-#     Base.metadata.drop_all(bind=engine)
-#     Base.metadata.create_all(bind=engine)
-
-
-# @pytest.fixture
-# def post_request(dummy_request):
-#     """Make a fake HTTP POST request."""
-#     dummy_request.method = "POST"
-#     return dummy_request
-
-
 # ----- Unit Tests ----- #
+def test_list_view_returns_empty_without_db(dummy_request):
+    """Test list view returns a dict when called."""
+    response = list_view(dummy_request)
+    assert len(response['posts']) == 0
 
-def test_filling_fake_db(fill_test_db, db_session):
+
+def test_filling_fake_db(add_models, db_session):
     """Check for entries added to db."""
     assert len(db_session.query(Entry).all()) == 25
 
@@ -209,12 +198,6 @@ def test_edit_view_with_id_raises_except(dummy_request):
         edit_view(dummy_request)
 
 
-def test_list_view_returns_empty_without_db(dummy_request):
-    """Test list view returns a dict when called."""
-    response = list_view(dummy_request)
-    assert len(response['posts']) == 0
-
-
 # # ----- Functional Tests ----- #
 
 def test_home_route_has_home_contents(testapp, db_session):
@@ -236,63 +219,63 @@ def test_home_route_has_list_of_entries(fill_test_db, db_session, testapp):
     assert len(num_posts) == 25
 
 
-# def test_home_view_returns_proper_content(testapp):
-#     """Home view returns the actual content from the html."""
-#     response = testapp.get('/')
-#     html = response.html
-#     expected_text = '<ol class="pagination">'
-#     assert expected_text in str(html)
+def test_home_view_returns_proper_content(testapp):
+    """Home view returns the actual content from the html."""
+    response = testapp.get('/')
+    html = response.html
+    expected_text = '<ol class="pagination">'
+    assert expected_text in str(html)
 
 
-# def test_new_entry_view_returns_proper_content(testapp, fill_test_db):
-#     """New entry view returns the actual content from the html."""
-#     response = testapp.get('/journal/new-entry')
-#     html = response.html
-#     expected_text = '<div class="large-6 columns"><h2>New Entry</h2></div>'
-#     assert expected_text in str(html)
+def test_new_entry_view_returns_proper_content(testapp, fill_test_db):
+    """New entry view returns the actual content from the html."""
+    response = testapp.get('/journal/new-entry')
+    html = response.html
+    expected_text = '<div class="large-6 columns"><h2>New Entry</h2></div>'
+    assert expected_text in str(html)
 
 
-# def test_detail_view_has_single_entry(testapp, db_session, fill_test_db):
-#     """Test that the detail page only brings up one entry."""
-#     response = testapp.get('/journal/1')
-#     html = response.html
-#     assert html.find()
-#     num_list_items = (len(html.find_all('h3')))
-#     assert num_list_items == 1
+def test_detail_view_has_single_entry(testapp, db_session, fill_test_db):
+    """Test that the detail page only brings up one entry."""
+    response = testapp.get('/journal/1')
+    html = response.html
+    assert html.find()
+    num_list_items = (len(html.find_all('h3')))
+    assert num_list_items == 1
 
 
-# def test_detail_view_returns_proper_content(testapp, db_session, fill_test_db):
-#     """Entry view returns a Response object when given a request."""
-#     # import pdb; pdb.set_trace()
-#     response = testapp.get('/journal/1')
-#     html = response.html
-#     assert html.find()
-#     expected_text = '<div class="entries">'
-#     assert expected_text in str(html)
+def test_detail_view_returns_proper_content(testapp, db_session, fill_test_db):
+    """Entry view returns a Response object when given a request."""
+    response = testapp.get('/journal/1')
+    html = response.html
+    entry = db_session.query(Entry).first()
+    assert html.find()
+    expected_text = entry.title
+    assert expected_text in str(html)
 
 
-# def test_edit_view_has_single_entry(testapp, db_session, fill_test_db):
-#     """Test that the detail page only brings up one entry."""
-#     response = testapp.get('/journal/1/edit-entry')
-#     html = response.html
-#     assert html.find()
-#     num_list_items = (len(html.find_all('h3')))
-#     assert num_list_items == 1
+def test_edit_view_has_single_entry(testapp, db_session, fill_test_db):
+    """Test that the detail page only brings up one entry."""
+    response = testapp.get('/journal/1/edit-entry')
+    html = response.html
+    entry = db_session.query(Entry).first()
+    assert html.find()
+    assert entry.title in str(html)
 
 
-# def test_edit_view_returns_proper_content(testapp, db_session, fill_test_db):
-#     """Entry view returns a Response object when given a request."""
-#     response = testapp.get('/journal/1/edit-entry')
-#     assert '<div class="titlearea">' in response.html.text
+def test_edit_view_returns_proper_content(testapp, db_session, fill_test_db):
+    """Entry view returns a Response object when given a request."""
+    response = testapp.get('/journal/1/edit-entry')
+    assert '<div class="titlearea">' in response.text
 
 
-# def test_detail_view_with_bad_id(testapp, db_session, fill_test_db):
-#     """."""
-#     response = testapp.get('/journal/9001', status=404)
-#     assert "These are not the pages you're looking for!" in response.text
+def test_detail_view_with_bad_id(testapp, db_session, fill_test_db):
+    """."""
+    response = testapp.get('/journal/9001', status=404)
+    assert "These are not the pages you're looking for!" in response.text
 
 
-# def test_edit_view_with_bad_id(testapp, db_session, fill_test_db):
-#     """."""
-#     response = testapp.get('/journal/9001/edit-entry', status=404)
-#     assert "These are not the pages you're looking for!" in response.text
+def test_edit_view_with_bad_id(testapp, db_session, fill_test_db):
+    """."""
+    response = testapp.get('/journal/9001/edit-entry', status=404)
+    assert "These are not the pages you're looking for!" in response.text
