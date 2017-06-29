@@ -23,7 +23,7 @@ requires = [
 ]
 
 tests_require = [
-    'WebTest >= 1.3.1',  # py3 compat
+    'WebTest >= 1.3.1',
     'pytest',
     'pytest-cov',
     'tox',
