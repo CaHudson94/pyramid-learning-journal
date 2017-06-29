@@ -111,11 +111,11 @@ def fill_test_db(testapp):
     with transaction.manager:
         dbsession = get_tm_session(SessionFactory, transaction.manager)
         dbsession.add_all(FAKE_ENTRIES)
-
     return dbsession
 
 
 # ----- Unit Tests ----- #
+
 def test_list_view_returns_empty_without_db(dummy_request):
     """Test list view returns a dict when called."""
     response = list_view(dummy_request)
@@ -214,6 +214,24 @@ def test_home_view_returns_200(testapp, db_session):
 
 def test_home_route_has_list_of_entries(fill_test_db, db_session, testapp):
     """Test if there are the right amount of entries on the home page."""
+@pytest.fixture
+def new_entry_response():
+    """Set fixture for new entry page."""
+    request = testing.DummyRequest()
+    response = create_view(request)
+    return response
+
+
+def test_home_view_page_is_home(home_response):
+    """Test if list view is routed to home page."""
+    from pyramid_learning_journal.views.default import list_view
+    request = testing.DummyRequest()
+    response = list_view(request)
+    assert response['page'] is 'home'
+
+
+def test_home_route_has_list_of_entries(testapp):
+    """Test if there are the right amount of entries on home page."""
     response = testapp.get('/')
     num_posts = response.html.find_all('h3')
     assert len(num_posts) == 25
@@ -223,7 +241,7 @@ def test_home_view_returns_proper_content(testapp):
     """Home view returns the actual content from the html."""
     response = testapp.get('/')
     html = response.html
-    expected_text = '<ol class="pagination">'
+    expected_text = '<section class="main">'
     assert expected_text in str(html)
 
 
@@ -231,7 +249,7 @@ def test_new_entry_view_returns_proper_content(testapp, fill_test_db):
     """New entry view returns the actual content from the html."""
     response = testapp.get('/journal/new-entry')
     html = response.html
-    expected_text = '<div class="large-6 columns"><h2>New Entry</h2></div>'
+    expected_text = '<h2>New Entry</h2>'
     assert expected_text in str(html)
 
 
@@ -240,7 +258,7 @@ def test_detail_view_has_single_entry(testapp, db_session, fill_test_db):
     response = testapp.get('/journal/1')
     html = response.html
     assert html.find()
-    num_list_items = (len(html.find_all('h3')))
+    num_list_items = (len(html.find_all('h2')))
     assert num_list_items == 1
 
 
@@ -279,3 +297,71 @@ def test_edit_view_with_bad_id(testapp, db_session, fill_test_db):
     """."""
     response = testapp.get('/journal/9001/edit-entry', status=404)
     assert "These are not the pages you're looking for!" in response.text
+    expected_text = 'Day 2 - Chris Hudson'
+    assert expected_text in str(html)
+
+
+def test_detail_entry_has_404(testapp):
+    """Check to see if detail view 404s properly."""
+    response = testapp.get('/journal/100', status=404)
+    html = response.html
+    assert html.find()
+    expected_text = '404 page not found'
+    assert expected_text in str(html)
+
+
+def test_edit_entry_has_404(testapp):
+    """Check to see if edit view 404s properly."""
+    response = testapp.get('/journal/100/edit-entry', status=404)
+    html = response.html
+    assert html.find()
+    expected_text = '404 page not found'
+    assert expected_text in str(html)
+
+
+def test_list_view_returns_dict(dummy_request):
+    """Test list view returns a dict when called."""
+    assert type(list_view(dummy_request)) == dict
+
+
+def test_detail_view_with_id_raises_except(dummy_request):
+    """Test proper error raising with non matching id on detail view."""
+    dummy_request.matchdict['id'] = '9000'
+    with pytest.raises(HTTPNotFound):
+        detail_view(dummy_request)
+
+
+def test_create_view_returns_dict(dummy_request):
+    """Test create view returns a dict when called."""
+    assert type(create_view(dummy_request)) == dict
+
+
+def test_edit_view_with_id_raises_except(dummy_request):
+    """Test proper error raising with non matching id on edit view."""
+    dummy_request.matchdict['id'] = '9000'
+    with pytest.raises(HTTPNotFound):
+        edit_view(dummy_request)
+
+
+def test_create_view_returns_200(testapp, db_session):
+    """Look for a 200 in create view."""
+    response = testapp.get('/journal/new-entry')
+    assert response.status_code == 200
+
+
+def test_home_view_returns_200(testapp, db_session):
+    """Look for a 200 in home view."""
+    response = testapp.get('/')
+    assert response.status_code == 200
+
+
+def test_edit_view_returns_200(testapp, db_session):
+    """Look for a 200 in edit view."""
+    response = testapp.get('/journal/0/edit-entry')
+    assert response.status_code == 200
+
+
+def test_detail_view_returns_200(testapp, db_session):
+    """Look for a 200 in detail view."""
+    response = testapp.get('/journal/0')
+    assert response.status_code == 200
