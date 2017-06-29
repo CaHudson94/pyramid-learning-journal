@@ -43,7 +43,7 @@ ___________________________________ summary ____________________________________
 ## Author: Chris Hudson and Erik Enderlein
 
 ## Site:
- -https://quiet-springs-92243.herokuapp.com/
+ -http://chris-hudson-journal.herokuapp.com/
 
 ## Routes and Views:
 
