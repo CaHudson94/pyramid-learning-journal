@@ -23,14 +23,18 @@ def detail_view(request):
 
 
 def create_view(request):
-    """Open new entry page."""
-    with io.open(os.path.join(HERE, '../templates/new_entry.html')) as the_file:
-        imported_page = the_file.read()
-    return Response(imported_page)
+    """View for adding a new entry."""
+    return {'page': 'create'}
 
 
 def edit_view(request):
-    """Open edit entry page."""
-    with io.open(os.path.join(HERE, '../templates/edit_entry.html')) as the_file:
-        imported_page = the_file.read()
-    return Response(imported_page)
+    """View for editing an entry."""
+    the_id = int(request.matchdict['id'])
+    entry = None
+    for item in posts:
+        if item['id'] == the_id:
+            entry = item
+            break
+    if entry is None:
+        raise HTTPNotFound
+    return {'page': 'edit', 'entry': entry}
