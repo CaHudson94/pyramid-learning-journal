@@ -19,7 +19,7 @@ requires = [
     'ipython',
     'pyramid_ipython',
     'webtest',
-    'psycopg2'
+    'psycopg2',
 ]
 
 tests_require = [

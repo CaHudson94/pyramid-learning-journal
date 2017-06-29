@@ -279,3 +279,39 @@ def test_edit_view_with_bad_id(testapp, db_session, fill_test_db):
     """."""
     response = testapp.get('/journal/9001/edit-entry', status=404)
     assert "These are not the pages you're looking for!" in response.text
+
+
+def test_detail_entry_has_404(testapp):
+    """Check to see if detail view 404s properly."""
+    response = testapp.get('/journal/100', status=404)
+    html = response.html
+    assert html.find()
+    expected_text = '404 page not found'
+    assert expected_text in str(html)
+
+
+def test_edit_entry_has_404(testapp):
+    """Check to see if edit view 404s properly."""
+    response = testapp.get('/journal/100/edit-entry', status=404)
+    html = response.html
+    assert html.find()
+    expected_text = '404 page not found'
+    assert expected_text in str(html)
+
+
+def test_create_view_returns_200(testapp, db_session):
+    """Look for a 200 in create view."""
+    response = testapp.get('/journal/new-entry')
+    assert response.status_code == 200
+
+
+def test_edit_view_returns_200(testapp, db_session):
+    """Look for a 200 in edit view."""
+    response = testapp.get('/journal/1/edit-entry')
+    assert response.status_code == 200
+
+
+def test_detail_view_returns_200(testapp, db_session):
+    """Look for a 200 in detail view."""
+    response = testapp.get('/journal/1')
+    assert response.status_code == 200
