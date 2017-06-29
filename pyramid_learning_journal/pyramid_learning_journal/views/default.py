@@ -1,40 +1,46 @@
 """Views for learning journal."""
-from pyramid.response import Response
 from pyramid.view import view_config
-import os
-import io
-
-HERE = os.path.dirname(__file__)
+from pyramid_learning_journal.models import Entry
+from pyramid.httpexceptions import HTTPNotFound
+import datetime
 
 the_date = datetime.datetime.now()
 
+
+@view_config(route_name='home', renderer='../templates/main.jinja2')
 def list_view(request):
-    """Open home page with list of entries."""
-    with io.open(os.path.join(HERE, '../templates/main.html')) as the_file:
-        imported_page = the_file.read()
-    return Response(imported_page)
+    """View for the home page with list of entries."""
+    session = request.dbsession
+    all_entries = session.query(Entry).order_by(Entry.id.desc()).all()
+    return {'page': 'home', "posts": all_entries}
 
 
+@view_config(route_name='detail', renderer='../templates/entry.jinja2')
 def detail_view(request):
-    """Open individual entry page."""
-    with io.open(os.path.join(HERE, '../templates/entry.html')) as the_file:
-        imported_page = the_file.read()
-    return Response(imported_page)
+    """View to see an individual entry."""
+    the_id = int(request.matchdict['id'])
+    print(the_id)
+    session = request.dbsession
+    entry = session.query(Entry).get(the_id)
+    if not entry:
+        raise HTTPNotFound
+    return {'page': 'detail', 'entry': entry}
 
 
+@view_config(route_name='create', renderer='../templates/new_entry.jinja2')
 def create_view(request):
     """View for adding a new entry."""
     return {'page': 'create'}
 
 
+@view_config(route_name='edit', renderer='../templates/edit_entry.jinja2')
 def edit_view(request):
     """View for editing an entry."""
     the_id = int(request.matchdict['id'])
-    entry = None
-    for item in posts:
-        if item['id'] == the_id:
-            entry = item
-            break
-    if entry is None:
+    print(the_id)
+    session = request.dbsession
+    entry = session.query(Entry).get(the_id)
+    new_date = the_date.strftime('%A, %-d %B, %Y, %-I:%M %P')
+    if not entry:
         raise HTTPNotFound
-    return {'page': 'edit', 'entry': entry}
+    return {'page': 'edit', 'entry': entry, 'edit_date': new_date}
