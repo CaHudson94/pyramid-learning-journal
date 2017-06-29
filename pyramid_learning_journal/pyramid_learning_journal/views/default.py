@@ -1,7 +1,7 @@
 """Views for learning journal."""
 from pyramid.view import view_config
 from pyramid_learning_journal.models import Entry
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound
+from pyramid.httpexceptions import HTTPNotFound
 import datetime
 
 the_date = datetime.datetime.now()
@@ -19,9 +19,10 @@ def list_view(request):
 def detail_view(request):
     """View to see an individual entry."""
     the_id = int(request.matchdict['id'])
+    print(the_id)
     session = request.dbsession
     entry = session.query(Entry).get(the_id)
-    if not Entry:
+    if not entry:
         raise HTTPNotFound
     return {'page': 'detail', 'entry': entry}
 
@@ -29,45 +30,17 @@ def detail_view(request):
 @view_config(route_name='create', renderer='../templates/new_entry.jinja2')
 def create_view(request):
     """View for adding a new entry."""
-    if request.method == "POST" and request.POST:
-        if not request.POST['title'] or not request.POST['body']:
-            return {
-                'title': request.POST['title'],
-                'body': request.POST['body'],
-                'error': 'Please complete all fields'
-            }
-
-        new_entry = Entry(
-            title=request.POST['title'],
-            body=request.POST['body'],
-            edit_date='Unedited',
-            creation_date=the_date.strftime('%A, %-d %B, %Y, %-I:%M %P')
-        )
-        request.dbsession.add(new_entry)
-        return HTTPFound(
-            location=request.route_url('home')
-        )
-    return {}
+    return {'page': 'create'}
 
 
 @view_config(route_name='edit', renderer='../templates/edit_entry.jinja2')
 def edit_view(request):
     """View for editing an entry."""
     the_id = int(request.matchdict['id'])
+    print(the_id)
     session = request.dbsession
     entry = session.query(Entry).get(the_id)
     new_date = the_date.strftime('%A, %-d %B, %Y, %-I:%M %P')
-    if not Entry:
+    if not entry:
         raise HTTPNotFound
-    if request.method == "GET":
-        return{'page': 'edit', 'entry': entry}
-    if request.method == "POST":
-        entry.title = request.POST['title']
-        entry.body = request.POST['body']
-        entry.edit_date = new_date
-        request.dbsession.flush()
-        return HTTPFound(
-            location=request.route_url('detail', id=entry.id)
-        )
-    return {}
-
+    return {'page': 'edit', 'entry': entry, 'edit_date': new_date}

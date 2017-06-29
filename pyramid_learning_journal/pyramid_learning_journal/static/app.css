@@ -8,7 +8,10 @@ GENERAL
     margin: 0 auto;
 }
 
-
+@font-face {
+    font-family: Palatino;
+    src: url(unicode.palatino.ttf);
+}
 
 
 /* ***************************************************************************
@@ -19,12 +22,17 @@ NAV
     background-color: #333;
     position: fixed;
     top: 0;
+    height: 80px;
     width: 100%;
     z-index: 99;
 }
 
 .left {
     padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
 }
 
 .right {
@@ -37,21 +45,20 @@ NAV
     font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
 }
 
-.menu {
-    position: relative;
+.left ul {
+    list-style: none;
+    display: inline;
 }
 
-.menu li a {
-    color: #CECECE;
-    background-color: #333;
-}
-
-
-.menu li a:hover {
-    background-color: rgba(255,255,255, 0.1);
+.left li {
+    padding: 0px 10px 0px 0px;
 }
 
 .menu-text a {
+    color: white;
+}
+
+.log a {
     color: white;
 }
 
@@ -66,7 +73,7 @@ HERO
 }
 
 .wrap {
-    padding-top: 65px;
+    padding-top: 75px;
 }
 
 .columns h2 {
@@ -157,20 +164,21 @@ input:hover, input:focus {
     display: inline;
 }
 
+.pagination a.active {
+    color: #1779ba;
+}
+
 .pagination li {
     padding: 0 3px;
 }
 
 .pagination li a {
+    font-size: 18px;
     color: white;
 }
 
 .pagination li a:hover {
     color: black;
-}
-
-.active {
-    color: #87FFFF;
 }
 
 .entries {
@@ -252,6 +260,36 @@ video {
     margin: 0 auto;
 }
 
+<<<<<<< HEAD
+#login {
+    position: fixed;
+    top: 45%;
+    left: 35%;
+    width: 25%;
+}
+
+#username {
+    text-align: left;
+    background-color: white;
+}
+
+#username, input:hover, input:focus {
+    background-color: white;
+    color: unset;
+}
+
+#password {
+    text-align: left;
+    background-color: white;
+}
+
+#password, input:hover, input:focus {
+    background-color: white;
+    color: unset;
+}
+
+=======
+>>>>>>> 5db37bb28095d1808d6aebf8edfe82867eed4c3f
 /* ***************************************************************************
 FOOTER
 *************************************************************************** */
