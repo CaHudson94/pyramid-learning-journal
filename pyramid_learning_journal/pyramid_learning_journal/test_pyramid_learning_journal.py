@@ -116,6 +116,7 @@ def fill_test_db(testapp):
 
 
 # ----- Unit Tests ----- #
+
 def test_list_view_returns_empty_without_db(dummy_request):
     """Test list view returns a dict when called."""
     response = list_view(dummy_request)
