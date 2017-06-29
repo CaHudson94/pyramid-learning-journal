@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
 cd pyramid_learning_journal
-python3.6 setup.py develop
-python3.6 runapp.py
+python setup.py develop
+initializedb production.ini
+python runapp.py
