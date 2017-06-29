@@ -19,12 +19,17 @@ NAV
     background-color: #333;
     position: fixed;
     top: 0;
+    height: 80px;
     width: 100%;
     z-index: 99;
 }
 
 .left {
     padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
 }
 
 .right {
@@ -37,21 +42,20 @@ NAV
     font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
 }
 
-.menu {
-    position: relative;
+.left ul {
+    list-style: none;
+    display: inline;
 }
 
-.menu li a {
-    color: #CECECE;
-    background-color: #333;
-}
-
-
-.menu li a:hover {
-    background-color: rgba(255,255,255, 0.1);
+.left li {
+    padding: 0px 10px 0px 0px;
 }
 
 .menu-text a {
+    color: white;
+}
+
+.log a {
     color: white;
 }
 
@@ -89,7 +93,7 @@ MAIN SECTION
     background-attachment: fixed;
     background-repeat: no-repeat;
     position: relative;
-    min-height: 1920px;
+    min-height: 900px;
     height: 100%;
 }
 
@@ -97,7 +101,7 @@ MAIN SECTION
     background-color: #333;
     opacity: 0.85;
     background-blend-mode: overlay;
-    padding: 25px 25px 60px 25px;
+    padding: 25px 25px 65px 25px;
 }
 
 .body h1 {
@@ -122,9 +126,31 @@ MAIN SECTION
     font-size: 22px;
 }
 
-.Confirm {
+input {
+    border: 1px solid transparent;
+    text-align: center;
+    cursor: pointer;
+    padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    background-color: #1779ba;
+    line-height: 1;
+    overflow: visible;
+    height: 40px;
+    width: 140px;
+    padding: 8px;
+    color: white;
+    font-size: 22px;
     float: left;
 }
+
+input:hover, input:focus {
+    background-color: #14679e;
+    color: #fefefe; }
 
 .edit {
     width: 100px;
@@ -135,11 +161,16 @@ MAIN SECTION
     display: inline;
 }
 
+.pagination a.active {
+    color: #1779ba;
+}
+
 .pagination li {
     padding: 0 3px;
 }
 
 .pagination li a {
+    font-size: 18px;
     color: white;
 }
 
@@ -147,14 +178,10 @@ MAIN SECTION
     color: black;
 }
 
-.active {
-    color: #87FFFF;
-}
-
 .entries {
     color: white;
     padding: 0px 25px;
-    max-height: 1530px;
+    min-height: 1530px;
     font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
 }
 
@@ -164,8 +191,19 @@ MAIN SECTION
 }
 
 .entries h3 {
+    display: inline;
+    text-align: left;
     max-width: 600px;
     font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+.entries h5 {
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+.entries p {
+    margin-top: 30px;
+    font-size: 20px;
 }
 
 .titlearea textarea {
@@ -183,7 +221,7 @@ MAIN SECTION
 
 
 .infoarea {
-    color: black;
+    color: white;
 }
 
 
@@ -219,14 +257,38 @@ video {
     margin: 0 auto;
 }
 
+#login {
+    position: fixed;
+    top: 45%;
+    left: 35%;
+    width: 25%;
+}
+
+#username {
+    text-align: left;
+    background-color: white;
+}
+
+#username, input:hover, input:focus {
+    background-color: white;
+    color: unset;
+}
+
+#password {
+    text-align: left;
+    background-color: white;
+}
+
+#password, input:hover, input:focus {
+    background-color: white;
+    color: unset;
+}
 
 /* ***************************************************************************
 FOOTER
 *************************************************************************** */
 
 footer {
-    position: fixed;
-    bottom: 0;
     color: #CECECE;
     height: 140px;
     width: 100%;
