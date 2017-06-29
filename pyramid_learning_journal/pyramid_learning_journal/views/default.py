@@ -27,18 +27,18 @@ def detail_view(request):
 @view_config(route_name='create', renderer='../templates/new_entry.jinja2')
 def create_view(request):
     """View for adding a new entry."""
-    return {}
+    return {'page': 'create'}
 
 
-# @view_config(route_name='edit', renderer='../templates/edit_entry.jinja2')
-# def edit_view(request):
-#     """View for editing an entry."""
-#     the_id = int(request.matchdict['id'])
-#     entry = None
-#     for item in posts:
-#         if item['id'] == the_id:
-#             entry = item
-#             break
-#     if entry is None:
-#         raise HTTPNotFound
-#     return {}
+@view_config(route_name='edit', renderer='../templates/edit_entry.jinja2')
+def edit_view(request):
+    """View for editing an entry."""
+    the_id = int(request.matchdict['id'])
+    entry = None
+    for item in posts:
+        if item['id'] == the_id:
+            entry = item
+            break
+    if entry is None:
+        raise HTTPNotFound
+    return {'page': 'edit', 'entry': entry}
