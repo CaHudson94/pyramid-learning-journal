@@ -130,8 +130,8 @@ although the material made sense it was just a weird day.'''},
      'creation_date': 'Saturday, 3 June, 2017, 2:41 am',
      'body':
      '''Today was difficult in that there were so many things that needed \
-     to be done and needed attention that we couldn't possibly cover \
-     everything. Luckily I felt a lot more productive today (at least for \
-     the earlier half) than yesterday. We will see what the week end \
-     brings but I hope to get a little down time this time around.'''},
+to be done and needed attention that we couldn't possibly cover \
+everything. Luckily I felt a lot more productive today (at least for \
+the earlier half) than yesterday. We will see what the week end \
+brings but I hope to get a little down time this time around.'''},
 ]
