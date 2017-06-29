@@ -53,7 +53,7 @@
       </div>
     </section>
 
-    {% block body %}{% endblock %}}
+    {% block body %}{% endblock %}
 
     <!-- FOOTER SECTION -->
     <Footer>
@@ -78,9 +78,9 @@
       </div>
     </Footer>
 
-    <script src="../js/vendor/jquery.js"></script>
-    <script src="../js/vendor/what-input.js"></script>
-    <script src="../js/vendor/foundation.js"></script>
-    <script src="../js/app.js"></script>
+    <script src="{{ request.static_path('pyramid_learning_journal:js/vendor/jquery.js') }}"></script>
+    <script src="{{ request.static_path('pyramid_learning_journal:js/vendor/what-input.js') }}"></script>
+    <script src="{{ request.static_path('pyramid_learning_journal:js/vendor/foundation.js') }}"></script>
+    <script src="{{ request.static_path('pyramid_learning_journal:js/app.js') }}"></script>
   </body>
 </html>

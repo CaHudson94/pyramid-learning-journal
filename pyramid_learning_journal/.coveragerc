@@ -13,3 +13,7 @@ omit =
     pyramid_learning_journal/data/__init__.py
     pyramid_learning_journal/data/data.py
     pyramid_learning_journal/views/__init__.py
+
+[report]
+show_missing = True
+

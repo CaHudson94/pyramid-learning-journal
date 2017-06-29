@@ -6,6 +6,7 @@ import io
 
 HERE = os.path.dirname(__file__)
 
+the_date = datetime.datetime.now()
 
 def list_view(request):
     """Open home page with list of entries."""
