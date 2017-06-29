@@ -6,17 +6,17 @@
         <div class="wrap">
           <div class="body">
             <ol class="pagination">
-              <li><a href="#first page" class="active">1</li></a>
-              <li><a href="#next page">2</li></a>
+              <li><a href="{{request.route_url('home')}}" class="active">1</li></a>
+              <li><a href="">2</li></a>
               <li>..</li>
-              <li><a href="#last page">3</li></a>
+              <li><a href="">5</li></a>
             </ol>
             <div class="button"><a href="{{request.route_url('create')}}">New entry</a></div>
               <div class="entries">
               {% for entry in posts %}
                 <a href="{{request.route_url('detail', id=entry.id)}}"><h3>{{entry.title}}</h3></a>
                 <hr>
-                <h5>{{entry.creation_date}}</h5>
+                <h6>{% if not entry.edit_date %} {{entry.creation_date}} {% endif %}{% if entry.edit_date %} Edited: {{entry.edit_date}}{% endif %}</h6>
                 <p>{{entry.body}}
                 </p>
                 <hr>
@@ -24,10 +24,10 @@
               </div>
             <div class="button"><a href="{{request.route_url('create')}}">New entry</a></div>
             <ol class="pagination">
-              <li><a href="#first page" class="active">1</li></a>
-              <li><a href="#next page">2</li></a>
+              <li><a href="{{request.route_url('home')}}" class="active">1</li></a>
+              <li><a href="">2</li></a>
               <li>..</li>
-              <li><a href="#last page">3</li></a>
+              <li><a href="">5</li></a>
             </ol>
           </div>
         </div>
