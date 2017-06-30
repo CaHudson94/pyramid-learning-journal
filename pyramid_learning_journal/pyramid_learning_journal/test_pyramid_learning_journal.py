@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 """Test for views creation and link to html pages."""
-from __future__ import unicode_literals
 from pyramid import testing
 from pyramid_learning_journal.models import (
     Entry,
@@ -14,7 +12,7 @@ from pyramid_learning_journal.views.default import (
     edit_view
 )
 from pyramid.config import Configurator
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from faker import Faker
 import pytest
 import datetime
@@ -160,6 +158,33 @@ def test_create_view_returns_dict(dummy_request):
     assert type(create_view(dummy_request)) == dict
 
 
+def test_create_view_with_incomplete_post(dummy_request):
+    """Test that create view returns the partial input."""
+    dummy_request.method = 'POST'
+    dummy_request.POST = {'title': 'bobs post', 'body': ''}
+    response = create_view(dummy_request)
+    assert response['title'] == 'bobs post'
+
+
+def test_create_view_addes_a_post(dummy_request, db_session):
+    """Given a complete post create view adds it to the DB."""
+    assert len(db_session.query(Entry).all()) == 0
+    dummy_request.method = 'POST'
+    dummy_request.POST = {'title': 'bobs post', 'body': 'stuff'}
+    create_view(dummy_request)
+    assert len(db_session.query(Entry).all()) == 1
+    assert db_session.query(Entry).first().title == 'bobs post'
+
+
+def test_create_view_on_success_redirects(dummy_request):
+    """Test that on creation of a new post redirects."""
+    dummy_request.method = 'POST'
+    dummy_request.POST = {'title': 'morgans post', 'body': 'cake'}
+    response = create_view(dummy_request)
+    assert response.status_code == 302
+    assert isinstance(response, HTTPFound)
+
+
 def test_edit_view_returns_dict_with_db(dummy_request, db_session):
     """Test edit view returns a dict when called with a db."""
     fake = Entry(
@@ -199,12 +224,32 @@ def test_edit_view_with_id_raises_except(dummy_request):
         edit_view(dummy_request)
 
 
+def test_edit_view_with_post_changes_an_entry(dummy_request, db_session):
+    """Test that a post request changes an entry."""
+    fake = Entry(
+        title=u'Cake Story',
+        body=u'The best cake ever eaten was chocolate!',
+        creation_date=datetime.datetime.now(),
+        edit_date=u''
+    )
+    db_session.add(fake)
+    fakeid = str(db_session.query(Entry)[0].id)
+    dummy_request.matchdict['id'] = fakeid
+    dummy_request.method = 'POST'
+    dummy_request.POST = {'title': 'Pie Story',
+                          'body': 'The pie story is better though!'}
+    edit_view(dummy_request)
+    assert db_session.query(Entry)[0].title == 'Pie Story'
+    assert db_session.query(Entry)[0].body == 'The pie story is better though!'
+    assert db_session.query(Entry)[0].edit_date != ''
+
+
 # # ----- Functional Tests ----- #
 
 def test_home_route_has_home_contents(testapp, db_session):
     """Test list view is routed to home page."""
     response = testapp.get('/')
-    assert '<ol class="pagination">' in response
+    assert '<div class="entries">' in response
 
 
 def test_home_view_returns_200(testapp, db_session):
@@ -224,7 +269,7 @@ def test_home_view_returns_proper_content(testapp):
     """Home view returns the actual content from the html."""
     response = testapp.get('/')
     html = response.html
-    expected_text = '<ol class="pagination">'
+    expected_text = '<div class="entries">'
     assert expected_text in str(html)
 
 

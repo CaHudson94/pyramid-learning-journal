@@ -5,12 +5,6 @@
       <div id="background">
         <div class="wrap">
           <div class="body">
-            <ol class="pagination">
-              <li><a href="{{request.route_url('home')}}" class="active">1</li></a>
-              <li><a href="">2</li></a>
-              <li>..</li>
-              <li><a href="">5</li></a>
-            </ol>
             <div class="button"><a href="{{request.route_url('create')}}">New entry</a></div>
               <div class="entries">
               {% for entry in posts %}
@@ -23,12 +17,6 @@
               {% endfor %}
               </div>
             <div class="button"><a href="{{request.route_url('create')}}">New entry</a></div>
-            <ol class="pagination">
-              <li><a href="{{request.route_url('home')}}" class="active">1</li></a>
-              <li><a href="">2</li></a>
-              <li>..</li>
-              <li><a href="">5</li></a>
-            </ol>
           </div>
         </div>
       </div>
