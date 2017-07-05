@@ -94,7 +94,6 @@ def edit_view(request):
         return HTTPFound(
             location=request.route_url('detail', id=entry.id)
         )
-    return {}
 
 
 @view_config(route_name='login', renderer='../templates/login.jinja2')
