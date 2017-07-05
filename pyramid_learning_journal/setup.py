@@ -20,6 +20,7 @@ requires = [
     'pyramid_ipython',
     'psycopg2',
     'passlib'
+    'webtest',
 ]
 
 tests_require = [
@@ -27,6 +28,7 @@ tests_require = [
     'pytest',
     'pytest-cov',
     'tox',
+    'faker',
 ]
 
 setup(

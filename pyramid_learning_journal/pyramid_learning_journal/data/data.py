@@ -261,4 +261,25 @@ Today felt drained and slow I was still getting things but the majority \
 of my energy was wasted as my mind wanted to work on code while we were \
 doing career development. The deletion wrapped up nicely but I am feeling \
 a bit behind of django.'''},
+    {'id': 28, 'title': 'Week 7 Day 1 - Chris Hudson', 'edit_date': '',
+     'creation_date': 'Tuesday, 27 June, 2017, 8:04 am',
+     'body':
+     '''This is a place holder since the original was lost did work on the \
+self balancing BST and deletion touch ups. Also did some small work on the \
+django imager with some css and such.'''}
+    {'id': 29, 'title': 'Week 7 Day 2/3(?) - Chris Hudson', 'edit_date': '',
+     'creation_date': 'Tuesday, 4 July, 2017, 11:27 pm',
+     'body':
+     '''We learned about hash tables in calss on Friday which I guess this \
+is a learning journal for and Nick went to have his kid on Tuesday which this \
+may also be for? Any way we got some really good code review on both days and \
+I learned some interesting things in each, some of the material on Friday may \
+have been less Pythonic but still cool. Brook was great and did a really \
+nice job with the explanation of hash tables and the work through on the app \
+felt good since I and a few others seemed to have a decent grasp on it at \
+this point. I am dreading working on data structures though since as of yet \
+I have written or navigated all but 14 lines of the code for this pairing \
+AND tried on multiple occasions to communicate and organize with him while \
+getting nothing back. Casey is a bit better but it seems both of my partners \
+ghosted for baby week.'''}
 ]

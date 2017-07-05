@@ -41,11 +41,78 @@ ___________________________________ summary ____________________________________
   congratulations :)
 
 
+Step 3:
+
+----------- coverage: platform linux, python 3.6.1-final-0 -----------
+Name                                         Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------
+pyramid_learning_journal/data/__init__.py        0      0   100%
+pyramid_learning_journal/data/data.py            1      0   100%
+pyramid_learning_journal/routes.py               7      0   100%
+pyramid_learning_journal/views/__init__.py       0      0   100%
+pyramid_learning_journal/views/default.py       28      0   100%
+pyramid_learning_journal/views/notfound.py       4      0   100%
+--------------------------------------------------------------------------
+TOTAL                                           40      0   100%
+
+
+========================== 25 passed in 1.87 seconds ===========================
+___________________________________ summary ____________________________________
+  py27: commands succeeded
+  py36: commands succeeded
+  congratulations :)
+
+
+Step 4:
+
+----------- coverage: platform linux, python 3.6.1-final-0 -----------
+Name                                         Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------
+pyramid_learning_journal/data/__init__.py        0      0   100%
+pyramid_learning_journal/data/data.py            1      0   100%
+pyramid_learning_journal/routes.py               7      0   100%
+pyramid_learning_journal/views/__init__.py       0      0   100%
+pyramid_learning_journal/views/default.py       39      0   100%
+pyramid_learning_journal/views/notfound.py       4      0   100%
+--------------------------------------------------------------------------
+TOTAL                                           51      0   100%
+
+
+========================== 29 passed in 1.93 seconds ===========================
+___________________________________ summary ____________________________________
+  py27: commands succeeded
+  py36: commands succeeded
+  congratulations :)
+
+
+Security and Concurency:
+
+pyramid_learning_journal/test_pyramid_learning_journal.py ................................
+
+----------- coverage: platform linux, python 3.6.1-final-0 -----------
+Name                                         Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------
+pyramid_learning_journal/data/__init__.py        0      0   100%
+pyramid_learning_journal/data/data.py            1      0   100%
+pyramid_learning_journal/security.py            29      0   100%
+pyramid_learning_journal/views/__init__.py       0      0   100%
+pyramid_learning_journal/views/default.py       57      0   100%
+pyramid_learning_journal/views/notfound.py       4      0   100%
+--------------------------------------------------------------------------
+TOTAL                                           91      0   100%
+
+
+========================== 32 passed in 7.25 seconds ===========================
+___________________________________ summary ____________________________________
+  py27: commands succeeded
+  py36: commands succeeded
+  congratulations :)
+
 
 ## Author: Chris Hudson and Erik Enderlein
 
 ## Site:
- -https://quiet-springs-92243.herokuapp.com/
+ -http://chris-hudson-journal.herokuapp.com/
 
 ## Routes and Views:
 
@@ -60,3 +127,4 @@ ___________________________________ summary ____________________________________
 -detail view for each entry page to entry.html
 -create view for making a new entry to new-entry.html
 -edit view for editing an entry to edit_entry.html
+

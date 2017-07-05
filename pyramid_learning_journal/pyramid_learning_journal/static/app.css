@@ -238,6 +238,32 @@ video {
     margin: 0 auto;
 }
 
+#login {
+    position: fixed;
+    top: 45%;
+    left: 35%;
+    width: 25%;
+}
+
+#username {
+    text-align: left;
+    background-color: white;
+}
+
+#username, input:hover, input:focus {
+    background-color: white;
+    color: unset;
+}
+
+#password {
+    text-align: left;
+    background-color: white;
+}
+
+#password, input:hover, input:focus {
+    background-color: white;
+    color: unset;
+}
 
 /* ***************************************************************************
 FOOTER
