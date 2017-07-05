@@ -19,7 +19,7 @@ requires = [
     'ipython',
     'pyramid_ipython',
     'psycopg2',
-    'passlib'
+    'passlib',
     'webtest',
 ]
 
