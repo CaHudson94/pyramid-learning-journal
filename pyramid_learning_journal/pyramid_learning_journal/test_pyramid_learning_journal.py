@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 """Test for views creation and link to html pages."""
-from __future__ import unicode_literals
 from pyramid import testing
 from pyramid_learning_journal.models import (
     Entry,
@@ -21,7 +19,6 @@ import pytest
 import datetime
 import transaction
 import os
-
 
 FAKE_STUFF = Faker()
 FAKE_ENTRIES = [Entry(
@@ -102,10 +99,7 @@ def testapp(request):
         config.scan()
         return config.make_wsgi_app()
 
-@pytest.fixture
-def add_models(dummy_request):
-    """Add entries to a dummy request."""
-    dummy_request.dbsession.add_all(FAKE_ENTRIES)
+    app = main({})
 
     SessionFactory = app.registry['dbsession_factory']
     engine = SessionFactory().bind

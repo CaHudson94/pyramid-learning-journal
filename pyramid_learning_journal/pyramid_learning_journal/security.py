@@ -48,6 +48,5 @@ def includeme(config):
     config.set_root_factory(MyRoot)
 
     session_secret = os.environ.get('SESSION_SECRET')
-    # import pdb; pdb.set_trace()
     session_factory = SignedCookieSessionFactory(session_secret)
     config.set_session_factory(session_factory)
