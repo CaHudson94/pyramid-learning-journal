@@ -26,7 +26,6 @@ def list_view(request):
 def detail_view(request):
     """View to see an individual entry."""
     the_id = int(request.matchdict['id'])
-    print(the_id)
     session = request.dbsession
     entry = session.query(Entry).get(the_id)
     if not entry:
