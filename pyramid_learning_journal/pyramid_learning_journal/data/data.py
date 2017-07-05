@@ -266,7 +266,7 @@ a bit behind of django.'''},
      'body':
      '''This is a place holder since the original was lost did work on the \
 self balancing BST and deletion touch ups. Also did some small work on the \
-django imager with some css and such.'''}
+django imager with some css and such.'''},
     {'id': 29, 'title': 'Week 7 Day 2/3(?) - Chris Hudson', 'edit_date': '',
      'creation_date': 'Tuesday, 4 July, 2017, 11:27 pm',
      'body':
