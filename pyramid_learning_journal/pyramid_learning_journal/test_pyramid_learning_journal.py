@@ -244,6 +244,25 @@ def test_edit_view_with_post_changes_an_entry(dummy_request, db_session):
     assert db_session.query(Entry)[0].edit_date != ''
 
 
+def test_edit_view_on_success_redirects(dummy_request, db_session):
+    """Test that on edit of post redirects."""
+    fake = Entry(
+        title=u'Cake Story',
+        body=u'The best cake ever eaten was chocolate!',
+        creation_date=datetime.datetime.now(),
+        edit_date=u''
+    )
+    db_session.add(fake)
+    fakeid = str(db_session.query(Entry)[0].id)
+    dummy_request.matchdict['id'] = fakeid
+    dummy_request.method = 'POST'
+    dummy_request.POST = {'title': 'Pie Story',
+                          'body': 'The pie story is better though!'}
+    response = edit_view(dummy_request)
+    assert response.status_code == 302
+    assert isinstance(response, HTTPFound)
+
+
 # # ----- Functional Tests ----- #
 
 def test_home_route_has_home_contents(testapp, db_session):
@@ -253,7 +272,7 @@ def test_home_route_has_home_contents(testapp, db_session):
 
 
 def test_home_view_returns_200(testapp, db_session):
-    """."""
+    """Test home view with testapp returns 200 OK."""
     response = testapp.get('/')
     assert response.status_code == 200
 
@@ -265,20 +284,10 @@ def test_home_route_has_list_of_entries(fill_test_db, db_session, testapp):
     assert len(num_posts) == 25
 
 
-def test_home_view_returns_proper_content(testapp):
-    """Home view returns the actual content from the html."""
-    response = testapp.get('/')
-    html = response.html
-    expected_text = '<div class="entries">'
-    assert expected_text in str(html)
-
-
 def test_new_entry_view_returns_proper_content(testapp, fill_test_db):
     """New entry view returns the actual content from the html."""
     response = testapp.get('/journal/new-entry')
-    html = response.html
-    expected_text = '<div class="large-6 columns"><h2>New Entry</h2></div>'
-    assert expected_text in str(html)
+    assert '<div class="large-6 columns"><h2>New Entry</h2></div>' in response
 
 
 def test_detail_view_has_single_entry(testapp, db_session, fill_test_db):
@@ -316,13 +325,13 @@ def test_edit_view_returns_proper_content(testapp, db_session, fill_test_db):
 
 
 def test_detail_view_with_bad_id(testapp, db_session, fill_test_db):
-    """."""
+    """Test a bad ID to the detail view returns 404 page."""
     response = testapp.get('/journal/9001', status=404)
     assert "These are not the pages you're looking for!" in response.text
 
 
 def test_edit_view_with_bad_id(testapp, db_session, fill_test_db):
-    """."""
+    """Test a bad ID to the edit view returns 404 page."""
     response = testapp.get('/journal/9001/edit-entry', status=404)
     assert "These are not the pages you're looking for!" in response.text
 
