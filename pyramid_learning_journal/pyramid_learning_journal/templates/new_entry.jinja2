@@ -7,10 +7,12 @@
           <div class="body">
             <div class="large-6 columns grade1"></div>
               <div class="large-6 columns"><h2>New Entry</h2></div>
-              <div class="titlearea"><textarea placeholder="Title..."></textarea></div>
-              <hr>
-              <div class="bodyarea"><textarea placeholder="Body..."></textarea></div>
-              <input type="submit" value="Confirm">
+              <form method="POST">
+                <input type="hidden" name="csrf_token" value="{{ request.session.get_csrf_token() }}" />
+                <div class="titlearea"><textarea placeholder="Title..." name="title" value="{{ title }}"></textarea></div>
+                <hr>
+                <div class="bodyarea"><textarea placeholder="Body..." name="body" value="{{ body }}"></textarea></div>
+                <input type="submit" value="Confirm">
               </form>
             <div class="button Cancle"><a href="{{request.route_url('home')}}">Cancle</a></div>
           </div>

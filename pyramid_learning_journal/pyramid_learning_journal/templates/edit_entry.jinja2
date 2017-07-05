@@ -7,14 +7,18 @@
           <div class="body">
             <div class="large-6 columns grade1"></div>
               <div class="large-6 columns"><h2>Edit Entry</h2></div>
-              <div class="titlearea"><textarea placeholder="Title...">{{entry.title}}</textarea></div>
-              <hr>
-              <div class="infoarea">Created: {{entry.creation_date}} Edited: {{edit_date}}</div><!-- add edit date to dict -->
-              <hr>
-              <div class="bodyarea"><textarea placeholder="Body...">{{entry.body}}</textarea></div>
-              <input type="submit" value="Confirm">
+              <form method="POST">
+                <input type="hidden" name="csrf_token" value="{{ request.session.get_csrf_token() }}" />
+                <div class="titlearea"><textarea name="title" placeholder="Title..." value="{{entry.title}}"></textarea></div>
+                <hr>
+                <div class="infoarea" name="creation_date">Created: {{entry.creation_date}}</div>
+                <hr>
+                <div class="infoarea" name="edit_date">Edited: {{entry.edit_date}}</div>
+                <hr>
+                <div class="bodyarea"><textarea name="body" placeholder="Body..." value="{{entry.body}}"></textarea></div>
+                <input type="submit" value="Confirm">
               </form>
-            <div class="button Cancle"><a href="{{request.route_url('home')}}">Cancle</a></div>
+              <div class="button Cancle"><a href="{{request.route_url('home')}}">Cancle</a></div>
           </div>
         </div>
       </div>
