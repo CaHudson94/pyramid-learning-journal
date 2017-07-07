@@ -281,5 +281,21 @@ this point. I am dreading working on data structures though since as of yet \
 I have written or navigated all but 14 lines of the code for this pairing \
 AND tried on multiple occasions to communicate and organize with him while \
 getting nothing back. Casey is a bit better but it seems both of my partners \
-ghosted for baby week.'''}
+ghosted for baby week.'''},
+    {'id': 30, 'title': 'Week 7 Day 3(?) - Chris Hudson', 'edit_date': '',
+     'creation_date': 'Thursday, 6 July, 2017, 3:21 pm',
+     'body':
+     '''We spent the last week working on make up and getting caught up but I \
+mostly did resubmits since my partners were both non communicative for the \
+week and I feel pretty good. Worried about the current material but that is \
+all at this point which is both nice and annoying. Hopefully the rest of the \
+week goes well and I can get the rest of the way caught up.'''},
+    {'id': 31, 'title': 'Week 7 Day 4 - Chris Hudson', 'edit_date': '',
+     'creation_date': 'Friday, 7 July, 2017, 3:48 pm ',
+     'body':
+     '''Put up the actual WSGI app and we went over that in class which was \
+quite helpful. Did a bunch with hash tables and learned about Tri trees both \
+of these structures seem infinitely easier than the binary search tree. We \
+also are diving further into django which is great! This week is goin alright \
+so far. '''},
 ]
