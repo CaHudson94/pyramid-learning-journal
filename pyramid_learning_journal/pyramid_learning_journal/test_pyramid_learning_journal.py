@@ -61,8 +61,8 @@ def testapp():
         settings['sqlalchemy.url'] = os.environ.get('TEST_DATABASE')
         config = Configurator(settings=settings)
         config.include('pyramid_jinja2')
-        config.include('.models')
-        config.include('.routes')
+        config.include('pyramid_learning_journal.views')
+        config.include('pyramid_learning_journal.routes')
         config.add_static_view(name='static',
                                path='pyramid_learning_journal:static')
         config.scan()
@@ -103,17 +103,6 @@ def new_entry_response():
     return response
 
 
-@pytest.fixture
-def fill_test_db(testapp):
-    """Set fake entries to the db for a session."""
-    SessionFactory = testapp.app.registry['dbsession_factory']
-    with transaction.manager:
-        dbsession = get_tm_session(SessionFactory, transaction.manager)
-        dbsession.add_all(FAKE_ENTRIES)
-
-    return dbsession
-
-
 def test_home_view_page_is_home(home_response):
     """Test if list view is routed to home page."""
     from pyramid_learning_journal.views.default import list_view
@@ -144,6 +133,7 @@ def test_new_entry_view_page_is_create(new_entry_response):
     from pyramid_learning_journal.views.default import create_view
     request = testing.DummyRequest()
     response = create_view(request)
+    import pdb; pdb.set_trace()
     assert response['page'] is 'create'
 
 
