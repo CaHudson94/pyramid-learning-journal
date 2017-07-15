@@ -1,6 +1,6 @@
 from sqlalchemy import (
     Column,
-    Unicode,
+    String,
     Integer,
     DateTime,
 )
@@ -11,7 +11,7 @@ from .meta import Base
 class Entry(Base):
     __tablename__ = 'entry'
     id = Column(Integer, primary_key=True)
-    title = Column(Unicode)
-    body = Column(Unicode)
-    creation_date = Column(Unicode)
-    edit_date = Column(Unicode)
+    title = Column(String)
+    body = Column(String)
+    creation_date = Column(String)
+    edit_date = Column(String)

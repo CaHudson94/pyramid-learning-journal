@@ -1,16 +1,25 @@
+# -*- coding: utf-8 -*-
 """Test for views creation and link to html pages."""
+from __future__ import unicode_literals
 from pyramid_learning_journal.data.data import posts
 from pyramid import testing
-import pytest
+from pyramid_learning_journal.models import (
+    Entry,
+    get_tm_session,
+)
+from pyramid_learning_journal.models.meta import Base
 from pyramid_learning_journal.views.default import (
     list_view,
     create_view,
     detail_view,
     edit_view
 )
-from pyramid_learning_journal.models.meta import Base
-from pyramid.httpexceptions import HTTPNotFound
 from pyramid.config import Configurator
+from pyramid.httpexceptions import HTTPNotFound
+from faker import Faker
+import pytest
+import datetime
+import transaction
 import os
 
 
@@ -51,13 +60,13 @@ def db_session(configuration, request):
     return session
 
 
-@pytest.fixture
-def testapp():
+@pytest.fixture(scope="session")
+def testapp(request):
     """Create a test application to use for functional tests."""
     from webtest import TestApp
 
     def main(global_config, **settings):
-        """Function returns a Pyramid WSGI application."""
+        """Function returns a fake Pyramid WSGI application."""
         settings['sqlalchemy.url'] = os.environ.get('TEST_DATABASE')
         config = Configurator(settings=settings)
         config.include('pyramid_jinja2')
@@ -70,19 +79,27 @@ def testapp():
 
     app = main({})
 
+    SessionFactory = app.registry['dbsession_factory']
+    engine = SessionFactory().bind
+    Base.metadata.create_all(bind=engine)
+
+    def teardown():
+        Base.metadata.drop_all(bind=engine)
+
+    request.addfinalizer(teardown)
     return TestApp(app)
 
 
 @pytest.fixture
 def post_request(dummy_request):
-    """."""
+    """POST dummy request."""
     dummy_request.method = "POST"
     return dummy_request
 
 
 @pytest.fixture
 def get_request(dummy_request):
-    """."""
+    """GET dummy request."""
     dummy_request.method = "GET"
     return dummy_request
 
@@ -101,6 +118,26 @@ def new_entry_response():
     request = testing.DummyRequest()
     response = create_view(request)
     return response
+
+
+FAKE_STUFF = Faker()
+FAKE_ENTRIES = [Entry(
+    title=FAKE_STUFF.text(20),
+    body=FAKE_STUFF.text(250),
+    creation_date=datetime.datetime.now(),
+    edit_date=''
+) for x in range(25)]
+
+
+@pytest.fixture
+def fill_test_db(testapp):
+    """Set fake entries to the db for a session."""
+    SessionFactory = testapp.app.registry['dbsession_factory']
+    with transaction.manager:
+        dbsession = get_tm_session(SessionFactory, transaction.manager)
+        dbsession.add_all(FAKE_ENTRIES)
+
+    return dbsession
 
 
 def test_home_view_page_is_home(home_response):
@@ -144,7 +181,7 @@ def test_new_entry_view_returns_proper_content(testapp):
     assert expected_text in str(html)
 
 
-def test_edit_entry_view_returns_proper_content(testapp):
+def test_edit_view_returns_proper_content(testapp, fill_test_db, db_session):
     """Edit entry view returns the actual content from the html."""
     response = testapp.get('/journal/1/edit-entry')
     html = response.html
