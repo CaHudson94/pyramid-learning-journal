@@ -61,7 +61,7 @@ def testapp():
         settings['sqlalchemy.url'] = os.environ.get('TEST_DATABASE')
         config = Configurator(settings=settings)
         config.include('pyramid_jinja2')
-        config.include('pyramid_learning_journal.views')
+        config.include('pyramid_learning_journal.models')
         config.include('pyramid_learning_journal.routes')
         config.add_static_view(name='static',
                                path='pyramid_learning_journal:static')
