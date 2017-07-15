@@ -12,11 +12,10 @@ from pyramid_learning_journal.models.meta import Base
 from pyramid.httpexceptions import HTTPNotFound
 import os
 
-
-@pytest.fixture
-def dummy_request(db_session):
-    """Make a fake HTTP request."""
-    return testing.DummyRequest(dbsession=db_session)
+# @pytest.fixture
+# def dummy_request(db_session):
+#     """Make a fake HTTP request."""
+#     return testing.DummyRequest(dbsession=db_session)
 
 
 @pytest.fixture(scope="session")
@@ -63,13 +62,22 @@ def testapp():
         config.include('pyramid_jinja2')
         config.include('.models')
         config.include('.routes')
-        config.add_static_view(name='static', path='pyramid_learning_journal:static')
+        config.add_static_view(name='static',
+                               path='pyramid_learning_journal:static')
         config.scan()
         return config.make_wsgi_app()
 
     app = main({})
 
     return TestApp(app)
+
+
+@pytest.fixture
+def dummy_request(db_session):
+    """."""
+    req = testing.DummyRequest()
+    req.dbsession = db_session
+    return req
 
 
 @pytest.fixture
@@ -84,6 +92,9 @@ def get_request(dummy_request):
     """."""
     dummy_request.method = "GET"
     return dummy_request
+
+
+# got to here.
 
 
 @pytest.fixture
@@ -143,7 +154,7 @@ def test_new_entry_view_returns_proper_content(testapp):
     assert expected_text in str(html)
 
 
-def test_edit_entry_view_returns_proper_content(testapp, db_session):
+def test_edit_entry_view_returns_proper_content(testapp):
     """Edit entry view returns the actual content from the html."""
     response = testapp.get('/journal/1/edit-entry')
     html = response.html
