@@ -1,5 +1,7 @@
 """Views for learning journal."""
 from pyramid.response import Response
+from pyramid_learning_journal.data.data import posts
+from pyramid.httpexceptions import HTTPNotFound
 import datetime
 import os
 import io

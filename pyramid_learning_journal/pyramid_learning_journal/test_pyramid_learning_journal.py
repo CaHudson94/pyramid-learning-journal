@@ -133,7 +133,6 @@ def test_new_entry_view_page_is_create(new_entry_response):
     from pyramid_learning_journal.views.default import create_view
     request = testing.DummyRequest()
     response = create_view(request)
-    import pdb; pdb.set_trace()
     assert response['page'] is 'create'
 
 
