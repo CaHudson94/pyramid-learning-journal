@@ -9,18 +9,18 @@ from pyramid_learning_journal.models import (
 from pyramid_learning_journal.models.meta import Base
 from pyramid_learning_journal.views.default import (
     list_view,
-    create_view,
     detail_view,
-    edit_view
+    edit_view,
+    login,
+    logout
 )
 from pyramid.config import Configurator
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from faker import Faker
 import pytest
 import datetime
 import transaction
 import os
-
 
 FAKE_STUFF = Faker()
 FAKE_ENTRIES = [Entry(
@@ -29,6 +29,15 @@ FAKE_ENTRIES = [Entry(
     creation_date=datetime.datetime.now(),
     edit_date=''
 ) for x in range(25)]
+
+
+@pytest.fixture
+def set_creds():
+    """Set credentials for user and secret for tests."""
+    from passlib.apps import custom_app_context as context
+    os.environ['AUTH_USERNAME'] = 'badman'
+    os.environ['AUTH_PASSWORD'] = context.hash('thatsnotthejoker')
+    os.environ['SESSION_SECRET'] = 'sneekysnackbox'
 
 
 @pytest.fixture
@@ -86,6 +95,7 @@ def testapp(request):
         config.include('pyramid_jinja2')
         config.include('pyramid_learning_journal.models')
         config.include('pyramid_learning_journal.routes')
+        config.include('pyramid_learning_journal.security')
         config.add_static_view(name='static',
                                path='pyramid_learning_journal:static')
         config.scan()
@@ -117,6 +127,54 @@ def fill_test_db(testapp):
 
 # ----- Unit Tests ----- #
 
+def test_login_returns_dict(dummy_request):
+    """Test request to login returns a dict."""
+    response = login(dummy_request)
+    assert type(response) == dict
+
+
+def test_login_bad_creds_both(dummy_request):
+    """Test login with bad credentials returns error message."""
+    dummy_request.method = 'POST'
+    dummy_request.POST = {
+        'username': 'blergflerg',
+        'password': 'asfdsakfmldsa'
+    }
+    assert login(dummy_request) == {'error': 'That username or \
+password does not compute!'}
+
+
+def test_login_bad_creds_one(dummy_request, set_creds):
+    """Test login with bad password returns error message."""
+    dummy_request.method = 'POST'
+    dummy_request.POST = {
+        'username': os.environ.get('AUTH_USERNAME'),
+        'password': 'asfdsakfmldsa'
+    }
+    assert login(dummy_request) == {'error': 'That username or \
+password does not compute!'}
+    assert type(login(dummy_request)) == dict
+
+
+def test_login_with_good_creds(dummy_request, set_creds):
+    """Test login with good credentials redirects."""
+    dummy_request.method = 'POST'
+    dummy_request.POST = {
+        'username': os.environ.get('AUTH_USERNAME'),
+        'password': 'thatsnotthejoker'
+    }
+    response = login(dummy_request)
+    assert response.status_code == 302
+    assert isinstance(response, HTTPFound)
+
+
+def test_logout_redirect(dummy_request):
+    """Test for redirection upon logout."""
+    response = logout(dummy_request)
+    assert response.status_code == 302
+    assert isinstance(response, HTTPFound)
+
+
 def test_list_view_returns_empty_without_db(dummy_request):
     """Test list view returns a dict when called."""
     response = list_view(dummy_request)
@@ -131,13 +189,6 @@ def test_filling_fake_db(add_models, db_session):
 def test_list_view_returns_dict(dummy_request):
     """Test list view returns a dict when called."""
     assert type(list_view(dummy_request)) == dict
-
-
-def test_detail_view_with_id_raises_except(dummy_request):
-    """Test proper error raising with non matching id on detail view."""
-    dummy_request.matchdict['id'] = '9000'
-    with pytest.raises(HTTPNotFound):
-        detail_view(dummy_request)
 
 
 def test_detail_view_returns_dict_with_db(db_session, dummy_request):
@@ -155,11 +206,6 @@ def test_detail_view_returns_dict_with_db(db_session, dummy_request):
     assert type(response) == dict
 
 
-def test_create_view_returns_dict(dummy_request):
-    """Test create view returns a dict when called."""
-    assert type(create_view(dummy_request)) == dict
-
-
 def test_edit_view_returns_dict_with_db(dummy_request, db_session):
     """Test edit view returns a dict when called with a db."""
     fake = Entry(
@@ -175,40 +221,38 @@ def test_edit_view_returns_dict_with_db(dummy_request, db_session):
     assert type(response) == dict
 
 
-def test_db_gets_new_entry_with_content(dummy_request, db_session):
-    """Test db gets entry with proper content."""
-    fake = Entry(
-        title=u'Stuff',
-        body=u'Some thing goes here.',
-        creation_date=datetime.datetime.now(),
-        edit_date=u''
-    )
-    db_session.add(fake)
-    fakeid = str(db_session.query(Entry)[0].id)
-    dummy_request.matchdict['id'] = fakeid
-    response = detail_view(dummy_request)
-    assert len(db_session.query(Entry).all()) == 1
-    assert fake.title in response['entry'].title
-    assert fake.body in response['entry'].body
-
-
-def test_edit_view_with_id_raises_except(dummy_request):
-    """Test proper error raising with non matching id on edit view."""
+def test_detail_view_with_id_raises_except(dummy_request):
+    """Test proper error raising with non matching id on detail view."""
     dummy_request.matchdict['id'] = '9000'
     with pytest.raises(HTTPNotFound):
-        edit_view(dummy_request)
+        detail_view(dummy_request)
 
 
-# # ----- Functional Tests ----- #
+# # # ----- Functional Tests ----- #
+
+
+def test_user_forbidden_create_page(testapp):
+    """Test access blocked for non logged users on create page."""
+    testapp.get('/logout')
+    response = testapp.get('/journal/new-entry', status=403)
+    assert response.status_code == 403
+
+
+def test_user_forbidden_update_page(testapp):
+    """Test access blocked for non logged users on update page."""
+    testapp.get('/logout')
+    response = testapp.get('/journal/1/edit-entry', status=403)
+    assert response.status_code == 403
+
 
 def test_home_route_has_home_contents(testapp, db_session):
     """Test list view is routed to home page."""
     response = testapp.get('/')
-    assert '<ol class="pagination">' in response
+    assert '<div class="entries">' in response
 
 
 def test_home_view_returns_200(testapp, db_session):
-    """."""
+    """Test home view with testapp returns 200 OK."""
     response = testapp.get('/')
     assert response.status_code == 200
 
@@ -220,24 +264,22 @@ def test_home_route_has_list_of_entries(fill_test_db, db_session, testapp):
     assert len(num_posts) == 25
 
 
-def test_home_view_returns_proper_content(testapp):
-    """Home view returns the actual content from the html."""
-    response = testapp.get('/')
-    html = response.html
-    expected_text = '<ol class="pagination">'
-    assert expected_text in str(html)
-
-
-def test_new_entry_view_returns_proper_content(testapp, fill_test_db):
+def test_new_entry_view_returns_proper_content(testapp, set_creds):
     """New entry view returns the actual content from the html."""
+    testapp.post('/login', {
+        'username': os.environ.get('AUTH_USERNAME'),
+        'password': 'thatsnotthejoker'
+    })
     response = testapp.get('/journal/new-entry')
-    html = response.html
-    expected_text = '<div class="large-6 columns"><h2>New Entry</h2></div>'
-    assert expected_text in str(html)
+    assert '<div class="large-6 columns"><h2>New Entry</h2></div>' in response
 
 
-def test_detail_view_has_single_entry(testapp, db_session, fill_test_db):
+def test_detail_view_has_single_entry(testapp, db_session):
     """Test that the detail page only brings up one entry."""
+    testapp.post('/login', {
+        'username': os.environ.get('AUTH_USERNAME'),
+        'password': 'thatsnotthejoker'
+    })
     response = testapp.get('/journal/1')
     html = response.html
     assert html.find()
@@ -245,9 +287,13 @@ def test_detail_view_has_single_entry(testapp, db_session, fill_test_db):
     assert num_list_items == 1
 
 
-def test_detail_view_returns_proper_content(testapp, db_session, fill_test_db):
+def test_detail_view_returns_proper_content(testapp, db_session):
     """Entry view returns a Response object when given a request."""
-    response = testapp.get('/journal/1')
+    testapp.post('/login', {
+        'username': os.environ.get('AUTH_USERNAME'),
+        'password': 'thatsnotthejoker'
+    })
+    response = testapp.get('/journal/1', status=200)
     html = response.html
     entry = db_session.query(Entry).first()
     assert html.find()
@@ -255,8 +301,12 @@ def test_detail_view_returns_proper_content(testapp, db_session, fill_test_db):
     assert expected_text in str(html)
 
 
-def test_edit_view_has_single_entry(testapp, db_session, fill_test_db):
+def test_edit_view_has_single_entry(testapp, db_session):
     """Test that the detail page only brings up one entry."""
+    testapp.post('/login', {
+        'username': os.environ.get('AUTH_USERNAME'),
+        'password': 'thatsnotthejoker'
+    })
     response = testapp.get('/journal/1/edit-entry')
     html = response.html
     entry = db_session.query(Entry).first()
@@ -264,20 +314,25 @@ def test_edit_view_has_single_entry(testapp, db_session, fill_test_db):
     assert entry.title in str(html)
 
 
-def test_edit_view_returns_proper_content(testapp, db_session, fill_test_db):
+
+def test_edit_view_returns_proper_content(testapp, db_session):
     """Entry view returns a Response object when given a request."""
+    testapp.post('/login', {
+        'username': os.environ.get('AUTH_USERNAME'),
+        'password': 'thatsnotthejoker'
+    })
     response = testapp.get('/journal/1/edit-entry')
     assert '<div class="titlearea">' in response.text
 
 
-def test_detail_view_with_bad_id(testapp, db_session, fill_test_db):
-    """."""
+def test_detail_view_with_bad_id(testapp):
+    """Test a bad ID to the detail view returns 404 page."""
     response = testapp.get('/journal/9001', status=404)
     assert "These are not the pages you're looking for!" in response.text
 
 
-def test_edit_view_with_bad_id(testapp, db_session, fill_test_db):
-    """."""
+def test_edit_view_with_bad_id(testapp):
+    """Test a bad ID to the edit view returns 404 page."""
     response = testapp.get('/journal/9001/edit-entry', status=404)
     assert "These are not the pages you're looking for!" in response.text
 
@@ -302,12 +357,20 @@ def test_edit_entry_has_404(testapp):
 
 def test_create_view_returns_200(testapp, db_session):
     """Look for a 200 in create view."""
+    testapp.post('/login', {
+        'username': os.environ.get('AUTH_USERNAME'),
+        'password': 'thatsnotthejoker'
+    })
     response = testapp.get('/journal/new-entry')
     assert response.status_code == 200
 
 
 def test_edit_view_returns_200(testapp, db_session):
     """Look for a 200 in edit view."""
+    testapp.post('/login', {
+        'username': os.environ.get('AUTH_USERNAME'),
+        'password': 'thatsnotthejoker'
+    })
     response = testapp.get('/journal/1/edit-entry')
     assert response.status_code == 200
 
@@ -316,3 +379,56 @@ def test_detail_view_returns_200(testapp, db_session):
     """Look for a 200 in detail view."""
     response = testapp.get('/journal/1')
     assert response.status_code == 200
+
+
+# # ----- Security/CSRF Tests ----- #
+
+
+def test_login_returns_200(testapp):
+    """Test that the response code for the login view is 200."""
+    response = testapp.get('/login')
+    assert response.status_code == 200
+
+
+def test_create_view_logged_in_partial_post(testapp):
+    """Test that post creation is open when logged and returns partial data."""
+    response = testapp.get('/journal/new-entry')
+    token = response.html.find('input', {'type': 'hidden'}).attrs['value']
+    fake_post = {
+        'csrf_token': token,
+        'title': '',
+        'body': 'some stuff goes here and eric is a commy!'
+    }
+    response = testapp.post('/journal/new-entry', fake_post)
+    assert 'some stuff goes here and eric is a commy!' in response.text
+
+
+def test_create_view_logged_in_full_post(testapp):
+    """Test post creation is open when logged, redirects with a full post."""
+    response = testapp.get('/journal/new-entry')
+    token = response.html.find('input', {'type': 'hidden'}).attrs['value']
+    fake_post = {
+        'csrf_token': token,
+        'title': 'yes',
+        'body': 'some stuff goes here and eric is a commy!'
+    }
+    response = testapp.post('/journal/new-entry', fake_post)
+    assert response.location == 'http://localhost/'
+    assert fake_post['title'] in testapp.get('/')
+    assert fake_post['body'] in testapp.get('/')
+
+
+def test_edit_view_logged_in_edit_post(testapp):
+    """Test edit is open when logged, redirects, and has the new content."""
+    response = testapp.get('/journal/1/edit-entry')
+    token = response.html.find('input', {'type': 'hidden'}).attrs['value']
+    response_body = response.html.find('textarea',
+                                       {'name': 'body'}).attrs['value']
+    fake_post = {
+        'csrf_token': token,
+        'title': 'New title for some stuff!',
+        'body': response_body
+    }
+    response = testapp.post('/journal/1/edit-entry', fake_post)
+    assert response.location == 'http://localhost/journal/1'
+    assert fake_post['title'] in testapp.get('/journal/1')
