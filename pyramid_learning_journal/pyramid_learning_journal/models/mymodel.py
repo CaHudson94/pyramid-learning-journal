@@ -2,7 +2,6 @@ from sqlalchemy import (
     Column,
     String,
     Integer,
-    DateTime,
 )
 
 from .meta import Base

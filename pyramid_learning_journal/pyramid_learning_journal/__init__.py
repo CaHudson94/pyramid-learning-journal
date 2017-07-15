@@ -8,8 +8,9 @@ def main(global_config, **settings):
     settings['sqlalchemy.url'] = os.environ.get('DATABASE_URL')
     config = Configurator(settings=settings)
     config.include('pyramid_jinja2')
-    config.include('pyramid_learning_journal.routes')
-    config.include('pyramid_learning_journal.models')
+    config.include('.models')
+    config.include('.routes')
+    config.include('.security')
     config.add_static_view(name='static',
                            path='pyramid_learning_journal:static')
     config.scan()
