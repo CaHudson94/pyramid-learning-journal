@@ -10,6 +10,7 @@ from pyramid_learning_journal.views.default import (
 )
 from pyramid_learning_journal.models.meta import Base
 from pyramid.httpexceptions import HTTPNotFound
+import os
 
 
 @pytest.fixture
@@ -72,30 +73,6 @@ def testapp():
 
 
 @pytest.fixture
-def db_session(configuration, request):
-    """."""
-    SessionFactory = configuration.registry['dbsession_factory']
-    session = SessionFactory()
-    engine = session.bind
-    Base.metadata.creat_all(engine)
-
-    def teardown():
-        session.transaction.rollback()
-        Base.metadata.drop_all(engine)
-
-    request.addfinalizer(teardown)
-    return session
-
-
-@pytest.fixture
-def dummy_request(db_session):
-    """."""
-    req = testing.DummyRequest()
-    req.dbsession = db_session
-    return req
-
-
-@pytest.fixture
 def post_request(dummy_request):
     """."""
     dummy_request.method = "POST"
@@ -107,9 +84,6 @@ def get_request(dummy_request):
     """."""
     dummy_request.method = "GET"
     return dummy_request
-
-
-# got to here.
 
 
 @pytest.fixture
@@ -169,7 +143,7 @@ def test_new_entry_view_returns_proper_content(testapp):
     assert expected_text in str(html)
 
 
-def test_edit_entry_view_returns_proper_content(testapp):
+def test_edit_entry_view_returns_proper_content(testapp, db_session):
     """Edit entry view returns the actual content from the html."""
     response = testapp.get('/journal/1/edit-entry')
     html = response.html

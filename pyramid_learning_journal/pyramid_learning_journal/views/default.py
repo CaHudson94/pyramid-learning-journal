@@ -1,12 +1,13 @@
 """Views for learning journal."""
 from pyramid.response import Response
-from pyramid.view import view_config
+import datetime
 import os
 import io
 
 HERE = os.path.dirname(__file__)
 
 the_date = datetime.datetime.now()
+
 
 def list_view(request):
     """Open home page with list of entries."""
