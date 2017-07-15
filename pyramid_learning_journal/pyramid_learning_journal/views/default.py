@@ -37,7 +37,6 @@ def create_view(request):
 def edit_view(request):
     """View for editing an entry."""
     the_id = int(request.matchdict['id'])
-    print(the_id)
     session = request.dbsession
     entry = session.query(Entry).get(the_id)
     new_date = the_date.strftime('%A, %-d %B, %Y, %-I:%M %P')
