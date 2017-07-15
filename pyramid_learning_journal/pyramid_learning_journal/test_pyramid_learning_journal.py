@@ -10,12 +10,14 @@ from pyramid_learning_journal.views.default import (
 )
 from pyramid_learning_journal.models.meta import Base
 from pyramid.httpexceptions import HTTPNotFound
+from pyramid.config import Configurator
 import os
 
-# @pytest.fixture
-# def dummy_request(db_session):
-#     """Make a fake HTTP request."""
-#     return testing.DummyRequest(dbsession=db_session)
+
+@pytest.fixture
+def dummy_request(db_session):
+    """Make a fake HTTP request."""
+    return testing.DummyRequest(dbsession=db_session)
 
 
 @pytest.fixture(scope="session")
@@ -29,6 +31,7 @@ def configuration(request):
 
     def teardown():
         testing.tearDown()
+
     request.addfinalizer(teardown)
     return config
 
@@ -52,8 +55,6 @@ def db_session(configuration, request):
 def testapp():
     """Create a test application to use for functional tests."""
     from webtest import TestApp
-    from pyramid.config import Configurator
-    import os
 
     def main(global_config, **settings):
         """Function returns a Pyramid WSGI application."""
@@ -73,14 +74,6 @@ def testapp():
 
 
 @pytest.fixture
-def dummy_request(db_session):
-    """."""
-    req = testing.DummyRequest()
-    req.dbsession = db_session
-    return req
-
-
-@pytest.fixture
 def post_request(dummy_request):
     """."""
     dummy_request.method = "POST"
@@ -92,9 +85,6 @@ def get_request(dummy_request):
     """."""
     dummy_request.method = "GET"
     return dummy_request
-
-
-# got to here.
 
 
 @pytest.fixture
@@ -111,6 +101,17 @@ def new_entry_response():
     request = testing.DummyRequest()
     response = create_view(request)
     return response
+
+
+@pytest.fixture
+def fill_test_db(testapp):
+    """Set fake entries to the db for a session."""
+    SessionFactory = testapp.app.registry['dbsession_factory']
+    with transaction.manager:
+        dbsession = get_tm_session(SessionFactory, transaction.manager)
+        dbsession.add_all(FAKE_ENTRIES)
+
+    return dbsession
 
 
 def test_home_view_page_is_home(home_response):
