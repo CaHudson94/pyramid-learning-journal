@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Test for views creation and link to html pages."""
 from __future__ import unicode_literals
-from pyramid_learning_journal.data.data import posts
 from pyramid import testing
 from pyramid_learning_journal.models import (
     Entry,
@@ -23,10 +22,25 @@ import transaction
 import os
 
 
+FAKE_STUFF = Faker()
+FAKE_ENTRIES = [Entry(
+    title=FAKE_STUFF.text(20),
+    body=FAKE_STUFF.text(250),
+    creation_date=datetime.datetime.now(),
+    edit_date=''
+) for x in range(25)]
+
+
 @pytest.fixture
 def dummy_request(db_session):
     """Make a fake HTTP request."""
     return testing.DummyRequest(dbsession=db_session)
+
+
+@pytest.fixture
+def add_models(dummy_request):
+    """Add entries to a dummy request."""
+    dummy_request.dbsession.add_all(FAKE_ENTRIES)
 
 
 @pytest.fixture(scope="session")
@@ -91,45 +105,6 @@ def testapp(request):
 
 
 @pytest.fixture
-def post_request(dummy_request):
-    """POST dummy request."""
-    dummy_request.method = "POST"
-    return dummy_request
-
-
-@pytest.fixture
-def get_request(dummy_request):
-    """GET dummy request."""
-    dummy_request.method = "GET"
-    return dummy_request
-
-
-@pytest.fixture
-def home_response():
-    """Set fixture for home page."""
-    request = testing.DummyRequest()
-    response = list_view(request)
-    return response
-
-
-@pytest.fixture
-def new_entry_response():
-    """Set fixture for new entry page."""
-    request = testing.DummyRequest()
-    response = create_view(request)
-    return response
-
-
-FAKE_STUFF = Faker()
-FAKE_ENTRIES = [Entry(
-    title=FAKE_STUFF.text(20),
-    body=FAKE_STUFF.text(250),
-    creation_date=datetime.datetime.now(),
-    edit_date=''
-) for x in range(25)]
-
-
-@pytest.fixture
 def fill_test_db(testapp):
     """Set fake entries to the db for a session."""
     SessionFactory = testapp.app.registry['dbsession_factory']
@@ -140,72 +115,171 @@ def fill_test_db(testapp):
     return dbsession
 
 
-def test_home_view_page_is_home(home_response):
-    """Test if list view is routed to home page."""
-    from pyramid_learning_journal.views.default import list_view
-    request = testing.DummyRequest()
-    response = list_view(request)
-    assert response['page'] is 'home'
+# ----- Unit Tests ----- #
+
+def test_list_view_returns_empty_without_db(dummy_request):
+    """Test list view returns a dict when called."""
+    response = list_view(dummy_request)
+    assert len(response['posts']) == 0
 
 
-def test_home_route_has_list_of_entries(testapp):
-    """Test if there are the right amount of entries on home page."""
+def test_filling_fake_db(add_models, db_session):
+    """Check for entries added to db."""
+    assert len(db_session.query(Entry).all()) == 25
+
+
+def test_list_view_returns_dict(dummy_request):
+    """Test list view returns a dict when called."""
+    assert type(list_view(dummy_request)) == dict
+
+
+def test_detail_view_with_id_raises_except(dummy_request):
+    """Test proper error raising with non matching id on detail view."""
+    dummy_request.matchdict['id'] = '9000'
+    with pytest.raises(HTTPNotFound):
+        detail_view(dummy_request)
+
+
+def test_detail_view_returns_dict_with_db(db_session, dummy_request):
+    """Test detail view returns a dict when called."""
+    fake = Entry(
+        title=u'Stuff',
+        body=u'Some thing goes here.',
+        creation_date=datetime.datetime.now(),
+        edit_date=u''
+    )
+    db_session.add(fake)
+    fakeid = str(db_session.query(Entry)[0].id)
+    dummy_request.matchdict['id'] = fakeid
+    response = detail_view(dummy_request)
+    assert type(response) == dict
+
+
+def test_create_view_returns_dict(dummy_request):
+    """Test create view returns a dict when called."""
+    assert type(create_view(dummy_request)) == dict
+
+
+def test_edit_view_returns_dict_with_db(dummy_request, db_session):
+    """Test edit view returns a dict when called with a db."""
+    fake = Entry(
+        title=u'Stuff',
+        body=u'Some thing goes here.',
+        creation_date=datetime.datetime.now(),
+        edit_date=u''
+    )
+    db_session.add(fake)
+    fakeid = str(db_session.query(Entry)[0].id)
+    dummy_request.matchdict['id'] = fakeid
+    response = edit_view(dummy_request)
+    assert type(response) == dict
+
+
+def test_db_gets_new_entry_with_content(dummy_request, db_session):
+    """Test db gets entry with proper content."""
+    fake = Entry(
+        title=u'Stuff',
+        body=u'Some thing goes here.',
+        creation_date=datetime.datetime.now(),
+        edit_date=u''
+    )
+    db_session.add(fake)
+    fakeid = str(db_session.query(Entry)[0].id)
+    dummy_request.matchdict['id'] = fakeid
+    response = detail_view(dummy_request)
+    assert len(db_session.query(Entry).all()) == 1
+    assert fake.title in response['entry'].title
+    assert fake.body in response['entry'].body
+
+
+def test_edit_view_with_id_raises_except(dummy_request):
+    """Test proper error raising with non matching id on edit view."""
+    dummy_request.matchdict['id'] = '9000'
+    with pytest.raises(HTTPNotFound):
+        edit_view(dummy_request)
+
+
+# # ----- Functional Tests ----- #
+
+def test_home_route_has_home_contents(testapp, db_session):
+    """Test list view is routed to home page."""
     response = testapp.get('/')
-    html = response.html
-    assert html.find()
-    num_list_items = (len(html.find_all('h3')))
-    assert num_list_items == len(posts)
+    assert '<ol class="pagination">' in response
+
+
+def test_home_view_returns_200(testapp, db_session):
+    """."""
+    response = testapp.get('/')
+    assert response.status_code == 200
+
+
+def test_home_route_has_list_of_entries(fill_test_db, db_session, testapp):
+    """Test if there are the right amount of entries on the home page."""
+    response = testapp.get('/')
+    num_posts = response.html.find_all('h3')
+    assert len(num_posts) == 25
 
 
 def test_home_view_returns_proper_content(testapp):
     """Home view returns the actual content from the html."""
     response = testapp.get('/')
     html = response.html
-    expected_text = '<section class="main">'
+    expected_text = '<ol class="pagination">'
     assert expected_text in str(html)
 
 
-def test_new_entry_view_page_is_create(new_entry_response):
-    """Test if create_view is routed to create page."""
-    from pyramid_learning_journal.views.default import create_view
-    request = testing.DummyRequest()
-    response = create_view(request)
-    assert response['page'] is 'create'
-
-
-def test_new_entry_view_returns_proper_content(testapp):
+def test_new_entry_view_returns_proper_content(testapp, fill_test_db):
     """New entry view returns the actual content from the html."""
     response = testapp.get('/journal/new-entry')
     html = response.html
-    expected_text = '<h2>New Entry</h2>'
+    expected_text = '<div class="large-6 columns"><h2>New Entry</h2></div>'
     assert expected_text in str(html)
 
 
-def test_edit_view_returns_proper_content(testapp, fill_test_db, db_session):
-    """Edit entry view returns the actual content from the html."""
-    response = testapp.get('/journal/1/edit-entry')
-    html = response.html
-    assert html.find()
-    expected_text = 'Day 2 - Chris Hudson'
-    assert expected_text in str(html)
-
-
-def test_detail_entry_has_single_entry(testapp):
-    """Check amount of entries on detail entry page."""
+def test_detail_view_has_single_entry(testapp, db_session, fill_test_db):
+    """Test that the detail page only brings up one entry."""
     response = testapp.get('/journal/1')
     html = response.html
     assert html.find()
-    num_list_items = (len(html.find_all('h2')))
+    num_list_items = (len(html.find_all('h3')))
     assert num_list_items == 1
 
 
-def test_detail_entry_returns_proper_content(testapp):
-    """Edit detail view returns the actual content from the html."""
+def test_detail_view_returns_proper_content(testapp, db_session, fill_test_db):
+    """Entry view returns a Response object when given a request."""
     response = testapp.get('/journal/1')
     html = response.html
+    entry = db_session.query(Entry).first()
     assert html.find()
-    expected_text = 'Day 2 - Chris Hudson'
+    expected_text = entry.title
     assert expected_text in str(html)
+
+
+def test_edit_view_has_single_entry(testapp, db_session, fill_test_db):
+    """Test that the detail page only brings up one entry."""
+    response = testapp.get('/journal/1/edit-entry')
+    html = response.html
+    entry = db_session.query(Entry).first()
+    assert html.find()
+    assert entry.title in str(html)
+
+
+def test_edit_view_returns_proper_content(testapp, db_session, fill_test_db):
+    """Entry view returns a Response object when given a request."""
+    response = testapp.get('/journal/1/edit-entry')
+    assert '<div class="titlearea">' in response.text
+
+
+def test_detail_view_with_bad_id(testapp, db_session, fill_test_db):
+    """."""
+    response = testapp.get('/journal/9001', status=404)
+    assert "These are not the pages you're looking for!" in response.text
+
+
+def test_edit_view_with_bad_id(testapp, db_session, fill_test_db):
+    """."""
+    response = testapp.get('/journal/9001/edit-entry', status=404)
+    assert "These are not the pages you're looking for!" in response.text
 
 
 def test_detail_entry_has_404(testapp):
@@ -226,49 +300,19 @@ def test_edit_entry_has_404(testapp):
     assert expected_text in str(html)
 
 
-def test_list_view_returns_dict(dummy_request):
-    """Test list view returns a dict when called."""
-    assert type(list_view(dummy_request)) == dict
-
-
-def test_detail_view_with_id_raises_except(dummy_request):
-    """Test proper error raising with non matching id on detail view."""
-    dummy_request.matchdict['id'] = '9000'
-    with pytest.raises(HTTPNotFound):
-        detail_view(dummy_request)
-
-
-def test_create_view_returns_dict(dummy_request):
-    """Test create view returns a dict when called."""
-    assert type(create_view(dummy_request)) == dict
-
-
-def test_edit_view_with_id_raises_except(dummy_request):
-    """Test proper error raising with non matching id on edit view."""
-    dummy_request.matchdict['id'] = '9000'
-    with pytest.raises(HTTPNotFound):
-        edit_view(dummy_request)
-
-
 def test_create_view_returns_200(testapp, db_session):
     """Look for a 200 in create view."""
     response = testapp.get('/journal/new-entry')
     assert response.status_code == 200
 
 
-def test_home_view_returns_200(testapp, db_session):
-    """Look for a 200 in home view."""
-    response = testapp.get('/')
-    assert response.status_code == 200
-
-
 def test_edit_view_returns_200(testapp, db_session):
     """Look for a 200 in edit view."""
-    response = testapp.get('/journal/0/edit-entry')
+    response = testapp.get('/journal/1/edit-entry')
     assert response.status_code == 200
 
 
 def test_detail_view_returns_200(testapp, db_session):
     """Look for a 200 in detail view."""
-    response = testapp.get('/journal/0')
+    response = testapp.get('/journal/1')
     assert response.status_code == 200
