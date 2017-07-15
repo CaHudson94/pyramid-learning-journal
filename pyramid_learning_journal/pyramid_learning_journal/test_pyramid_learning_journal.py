@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 """Test for views creation and link to html pages."""
+from __future__ import unicode_literals
 from pyramid import testing
 from pyramid_learning_journal.models import (
     Entry,
@@ -124,7 +126,6 @@ def fill_test_db(testapp):
 
 
 # ----- Unit Tests ----- #
-
 
 def test_login_returns_dict(dummy_request):
     """Test request to login returns a dict."""
@@ -311,6 +312,7 @@ def test_edit_view_has_single_entry(testapp, db_session):
     entry = db_session.query(Entry).first()
     assert html.find()
     assert entry.title in str(html)
+
 
 
 def test_edit_view_returns_proper_content(testapp, db_session):
