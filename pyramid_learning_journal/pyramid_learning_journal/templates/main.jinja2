@@ -1,0 +1,24 @@
+{% extends "layout.jinja2" %}
+{% block body %}
+    <!-- MAIN CONTENT -->
+    <section class="main">
+      <div id="background">
+        <div class="wrap">
+          <div class="body">
+            {% if auth %}<div class="button"><a href="{{request.route_url('create')}}">New entry</a></div>{% endif %}
+              <div class="entries">
+              {% for entry in posts %}
+                <a href="{{request.route_url('detail', id=entry.id)}}"><h3>{{entry.title}}</h3></a>
+                <hr>
+                <h6>{% if not entry.edit_date %} {{entry.creation_date}} {% endif %}{% if entry.edit_date %} Edited: {{entry.edit_date}}{% endif %}</h6>
+                <p>{{entry.body}}
+                </p>
+                <hr>
+              {% endfor %}
+              </div>
+            {% if auth %}<div class="button"><a href="{{request.route_url('create')}}">New entry</a></div>{% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}

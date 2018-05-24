@@ -1,0 +1,322 @@
+
+/* ***************************************************************************
+GENERAL
+*************************************************************************** */
+.wrap {
+    width: 90%;
+    max-width: 1260px;
+    margin: 0 auto;
+}
+
+@font-face {
+    font-family: Palatino;
+    src: url(unicode.palatino.ttf);
+}
+
+
+/* ***************************************************************************
+NAV
+*************************************************************************** */
+.nav-bar {
+    color: #CECECE;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    height: 65px;
+    width: 100%;
+    z-index: 99;
+}
+
+.left {
+    padding: 8px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+}
+
+.right {
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.nav-bar h4 {
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+.left ul {
+    list-style: none;
+    display: inline;
+}
+
+.left li {
+    padding: 0px 10px 0px 0px;
+}
+
+.menu-text a {
+    color: white;
+}
+
+.log a {
+    color: white;
+}
+
+
+/* ***************************************************************************
+HERO
+*************************************************************************** */
+.hero {
+    color: #CECECE;
+    background-color: #333;
+    padding: 0px 80px 5px;
+}
+
+.wrap {
+    padding-top: 75px;
+}
+
+.columns h2 {
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+
+
+/* ***************************************************************************
+MAIN SECTION
+*************************************************************************** */
+.main {
+    margin-top: 0;
+}
+
+
+#background {
+    background-image: url(main_back.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    position: relative;
+    min-height: 900px;
+    height: 100%;
+}
+
+.body {
+    background-color: #333;
+    opacity: 0.85;
+    background-blend-mode: overlay;
+    padding: 25px 25px 65px 25px;
+}
+
+.body h1 {
+    text-align: center;
+    color: white;
+}
+
+.body h3 {
+    text-align: center;
+    color: white;
+}
+
+.button {
+    float:right;
+    height: 40px;
+    width: 140px;
+    padding: 8px;
+}
+
+.button a {
+    color: white;
+    font-size: 22px;
+}
+
+input {
+    border: 1px solid transparent;
+    text-align: center;
+    cursor: pointer;
+    padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    background-color: #1779ba;
+    line-height: 1;
+    overflow: visible;
+    height: 40px;
+    width: 140px;
+    padding: 8px;
+    color: white;
+    font-size: 22px;
+    float: left;
+}
+
+input:hover, input:focus {
+    background-color: #14679e;
+    color: #fefefe; }
+
+.edit {
+    width: 100px;
+}
+
+.entries {
+    color: white;
+    padding: 5px 45px;
+    min-height: 1530px;
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+.entries a {
+    max-width: 600px;
+    color: white;
+}
+
+.entries h3 {
+    display: inline;
+    text-align: left;
+    max-width: 600px;
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+.entries h5 {
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+.entries p {
+    margin-top: 30px;
+    font-size: 20px;
+}
+
+.titlearea textarea {
+    width: 100%;
+    height: 35px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+    color: black;
+
+}
+
+
+.infoarea {
+    color: white;
+}
+
+
+.infoarea textarea {
+    width: 100%;
+    height: 35px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+
+.bodyarea textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+.columns h2 {
+    color: white;
+}
+
+video {
+    display: block;
+    margin: 0 auto;
+}
+
+#login {
+    position: fixed;
+    top: 45%;
+    left: 35%;
+    width: 25%;
+}
+
+#username {
+    text-align: left;
+    background-color: white;
+}
+
+#username, input:hover, input:focus {
+    background-color: white;
+    color: unset;
+}
+
+#password {
+    text-align: left;
+    background-color: white;
+}
+
+#password, input:hover, input:focus {
+    background-color: white;
+    color: unset;
+}
+
+/* ***************************************************************************
+FOOTER
+*************************************************************************** */
+
+footer {
+    color: #CECECE;
+    height: 140px;
+    width: 100%;
+    background-color: #333;
+    padding-bottom: 50px;
+}
+
+footer a {
+    display: block;
+    margin-bottom: 3px;
+}
+
+footer h5 {
+    margin-top: -40px;
+}
+
+
+footer hr {
+    margin-bottom: 10px;
+}
+
+footer .column {
+    margin-top: -10px;
+}
+
+.column {
+    text-align: center;
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+
+.column a {
+    text-align: center;
+    padding-top: 7px;
+}
+
+.column h5 {
+    font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
+}
+
+/* ***************************************************************************
+MEDIA QUERY
+*************************************************************************** */
+
+@media (min-width: 639px) {
+
+    .nav-desktop {
+        display: none;
+    }
+}

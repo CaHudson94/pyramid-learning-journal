@@ -1,0 +1,16 @@
+{% extends "layout.jinja2" %}
+
+{% block body %}
+<div class="content">
+    <section class="main">
+      <div id="background">
+        <div class="wrap">
+          <div class="body"><h1>These are not the pages you're looking for!</h1><h3>404 page not found</h3></div>
+          <video width="50%" height="400" autoplay>
+            <source src="{{ request.static_path('pyramid_learning_journal:static/rickroll.mp4') }}" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </section>
+</div>
+{% endblock %}
